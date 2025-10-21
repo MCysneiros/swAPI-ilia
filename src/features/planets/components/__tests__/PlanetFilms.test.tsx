@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { PlanetFilms } from '../PlanetFilms';
 
-// Mock the useFilms hook
 vi.mock('../../hooks/useFilms', () => ({
   useFilms: vi.fn(),
 }));

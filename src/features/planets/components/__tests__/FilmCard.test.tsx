@@ -6,11 +6,19 @@ import type { Film } from '@/types';
 describe('FilmCard', () => {
   const mockFilm: Film = {
     title: 'A New Hope',
-
     episode_id: 4,
     director: 'George Lucas',
     release_date: '1977-05-25',
     opening_crawl: 'It is a period of civil war...',
+    producer: 'Gary Kurtz, Rick McCallum',
+    characters: [],
+    planets: [],
+    starships: [],
+    vehicles: [],
+    species: [],
+    created: '2014-12-10T14:23:31.880000Z',
+    edited: '2014-12-20T19:49:45.256000Z',
+    url: 'https://swapi.dev/api/films/1/',
   };
 
   it('should render film title', () => {

@@ -151,7 +151,6 @@ describe('PlanetListCard', () => {
       { wrapper }
     );
 
-    // Procura pelo SVG do ícone Film (lucide-react)
     const svg = container.querySelector('svg');
     expect(svg).toBeInTheDocument();
   });

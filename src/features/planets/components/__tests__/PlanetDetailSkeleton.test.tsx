@@ -6,7 +6,6 @@ describe('PlanetDetailSkeleton', () => {
   it('should render loading skeleton', () => {
     const { container } = render(<PlanetDetailSkeleton />);
 
-    // Check for skeleton elements
     const skeletons = container.querySelectorAll('[class*="animate-pulse"]');
     expect(skeletons.length).toBeGreaterThan(0);
   });
