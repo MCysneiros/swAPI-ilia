@@ -35,7 +35,7 @@ export function Pagination({
         size="icon"
         onClick={goToFirstPage}
         disabled={!hasPreviousPage}
-        aria-label="Primeira página"
+        aria-label="First page"
       >
         <ChevronsLeft className="h-4 w-4" />
       </Button>
@@ -45,14 +45,14 @@ export function Pagination({
         size="icon"
         onClick={goToPreviousPage}
         disabled={!hasPreviousPage}
-        aria-label="Página anterior"
+        aria-label="Previous page"
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
 
       <div className="flex items-center gap-2 px-4">
         <span className="text-sm font-medium">
-          Página {currentPage} de {totalPages}
+          Page {currentPage} of {totalPages}
         </span>
       </div>
 
@@ -61,7 +61,7 @@ export function Pagination({
         size="icon"
         onClick={goToNextPage}
         disabled={!hasNextPage}
-        aria-label="Próxima página"
+        aria-label="Next page"
       >
         <ChevronRight className="h-4 w-4" />
       </Button>
@@ -71,7 +71,7 @@ export function Pagination({
         size="icon"
         onClick={goToLastPage}
         disabled={!hasNextPage}
-        aria-label="Última página"
+        aria-label="Last page"
       >
         <ChevronsRight className="h-4 w-4" />
       </Button>

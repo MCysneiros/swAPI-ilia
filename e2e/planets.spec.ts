@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test.describe('Planets - List Page', () => {
   test.beforeEach(async ({ page }) => {
@@ -55,27 +55,27 @@ test.describe('Planets - Detail Page', () => {
 
   test('renders key sections for a planet', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await expect(page.getByText(/Informações Básicas/i)).toBeVisible();
-    await expect(page.getByText(/Características/i)).toBeVisible();
+    await expect(page.getByText(/Basic Information/i)).toBeVisible();
+    await expect(page.getByText(/Characteristics/i)).toBeVisible();
   });
 
   test('shows residents and films when available', async ({ page }) => {
-    const residents = page.getByRole('heading', { name: /Nativos/i });
+    const residents = page.getByRole('heading', { name: /Residents/i });
     if ((await residents.count()) > 0) {
       await expect(residents.first()).toBeVisible();
     }
 
-    const films = page.getByRole('heading', { name: /Filmes/i });
+    const films = page.getByRole('heading', { name: /Films/i });
     if ((await films.count()) > 0) {
       await expect(films.first()).toBeVisible();
     }
   });
 
   test('allows navigating back to the list', async ({ page }) => {
-    const backLink = page.getByRole('link', { name: /Back to Planets/i });
-    await expect(backLink).toHaveAttribute('href', '/planets');
+    const backButton = page.getByRole('button', { name: /Back to Planets/i });
+    await expect(backButton).toBeVisible();
 
-    await backLink.click();
+    await backButton.click();
     await expect(page).toHaveURL('/planets');
   });
 });

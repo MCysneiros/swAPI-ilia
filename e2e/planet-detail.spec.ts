@@ -1,8 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test.describe('Planet Detail Page', () => {
   test.beforeEach(async ({ page }) => {
-    // Navega para a lista e clica no primeiro planeta
+    // Navigate to list and click on the first planet
     await page.goto('/planets');
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
@@ -11,14 +11,14 @@ test.describe('Planet Detail Page', () => {
     await page.waitForURL(/\/planets\/\d+/);
   });
 
-  test('deve exibir o nome do planeta', async ({ page }) => {
+  test('should display planet name', async ({ page }) => {
     const heading = page.locator('h1');
     await expect(heading).toBeVisible();
     await expect(heading).not.toBeEmpty();
   });
 
-  test('deve exibir informações básicas do planeta', async ({ page }) => {
-    // Verifica informações como rotação, órbita, diâmetro
+  test('should display basic planet information', async ({ page }) => {
+    // Verify information like rotation, orbit, diameter
     await expect(
       page.getByText(/Rotation Period|Período de Rotação/i).first()
     ).toBeVisible();
@@ -27,53 +27,50 @@ test.describe('Planet Detail Page', () => {
     ).toBeVisible();
   });
 
-  test('deve exibir clima e terreno', async ({ page }) => {
-    // Busca por labels
+  test('should display climate and terrain', async ({ page }) => {
+    // Look for labels
     await expect(page.getByText(/Climate|Clima/i)).toBeVisible();
     await expect(page.getByText(/Terrain|Terreno/i)).toBeVisible();
   });
 
-  test('deve exibir população', async ({ page }) => {
+  test('should display population', async ({ page }) => {
     await expect(page.getByText(/Population|População/i)).toBeVisible();
   });
 
-  test('deve exibir diâmetro', async ({ page }) => {
+  test('should display diameter', async ({ page }) => {
     await expect(page.getByText(/Diameter|Diâmetro/i)).toBeVisible();
   });
 
-  test('deve exibir gravidade', async ({ page }) => {
+  test('should display gravity', async ({ page }) => {
     await expect(page.getByText(/Gravity|Gravidade/i)).toBeVisible();
   });
 
-  test('deve ter botão de voltar', async ({ page }) => {
-    const backButton = page.getByRole('link', { name: /back|voltar/i });
+  test('should have back button', async ({ page }) => {
+    const backButton = page.getByRole('button', { name: /back to planets/i });
     await expect(backButton).toBeVisible();
-    await expect(backButton).toHaveAttribute('href', '/planets');
   });
 
-  test('deve navegar de volta para a lista ao clicar em voltar', async ({
-    page,
-  }) => {
-    await page.getByRole('link', { name: /back|voltar/i }).click();
+  test('should navigate back to list when clicking back', async ({ page }) => {
+    await page.getByRole('button', { name: /back to planets/i }).click();
     await page.waitForURL('/planets');
     await expect(page).toHaveURL('/planets');
   });
 
-  test('deve exibir seção de residentes quando houver', async ({ page }) => {
-    // Alguns planetas têm residentes
+  test('should display residents section when available', async ({ page }) => {
+    // Some planets have residents
     const residentsHeading = page.getByRole('heading', {
       name: /Residents|Residentes/i,
     });
 
-    // Se existir a seção, deve estar visível
+    // If the section exists, should be visible
     const count = await residentsHeading.count();
     if (count > 0) {
       await expect(residentsHeading).toBeVisible();
     }
   });
 
-  test('deve exibir seção de filmes quando houver', async ({ page }) => {
-    // Planetas aparecem em filmes
+  test('should display films section when available', async ({ page }) => {
+    // Planets appear in films
     const filmsHeading = page.getByRole('heading', {
       name: /Films|Filmes/i,
     });
@@ -84,38 +81,38 @@ test.describe('Planet Detail Page', () => {
     }
   });
 
-  test('deve exibir cards de residentes com informações', async ({ page }) => {
+  test('should display resident cards with information', async ({ page }) => {
     const residentCards = page.locator('[data-testid="resident-card"]');
     const count = await residentCards.count();
 
     if (count > 0) {
-      // Verifica primeiro card de residente
+      // Verify first resident card
       const firstCard = residentCards.first();
       await expect(firstCard).toBeVisible();
     }
   });
 
-  test('deve exibir cards de filmes com informações', async ({ page }) => {
+  test('should display film cards with information', async ({ page }) => {
     const filmCards = page.locator('[data-testid="film-card"]');
     const count = await filmCards.count();
 
     if (count > 0) {
-      // Verifica primeiro card de filme
+      // Verify first film card
       const firstCard = filmCards.first();
       await expect(firstCard).toBeVisible();
 
-      // Deve ter informações do filme
+      // Should have film information
       const cardText = await firstCard.textContent();
       expect(cardText).toBeTruthy();
     }
   });
 
-  test('deve exibir episódio nos cards de filme', async ({ page }) => {
+  test('should display episode number in film cards', async ({ page }) => {
     const filmCards = page.locator('[data-testid="film-card"]');
     const count = await filmCards.count();
 
     if (count > 0) {
-      // Badge com número do episódio
+      // Badge with episode number
       const firstCard = filmCards.first();
       const episodeBadge = firstCard.locator('text=/EP|Episode/i');
       const badgeCount = await episodeBadge.count();
@@ -125,117 +122,117 @@ test.describe('Planet Detail Page', () => {
     }
   });
 
-  test('deve ser responsivo em mobile', async ({ page }) => {
+  test('should be responsive on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
 
-    // Verifica que elementos principais ainda são visíveis
-    const heading = page.locator('h1');
+    // Elements should remain visible
+    const heading = page.locator('h1').first();
     await expect(heading).toBeVisible();
 
     await expect(
-      page.getByRole('link', { name: /back|voltar/i })
+      page.getByRole('button', { name: /back to planets/i })
     ).toBeVisible();
   });
 
-  test('deve ter layout em grid responsivo', async ({ page }) => {
+  test('should have responsive grid layout', async ({ page }) => {
     // Desktop
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.waitForTimeout(500);
 
-    // Verifica que o conteúdo é visível
+    // Verify content is visible
     await expect(page.locator('h1')).toBeVisible();
 
     // Mobile
     await page.setViewportSize({ width: 375, height: 667 });
     await page.waitForTimeout(500);
 
-    // Ainda deve estar visível
+    // Should still be visible
     await expect(page.locator('h1')).toBeVisible();
   });
 
-  test('deve exibir badges para categorizar informações', async ({ page }) => {
-    // Badges são usados em vários lugares
+  test('should display badges to categorize information', async ({ page }) => {
+    // Badges are used in various places
     const badges = page.locator('[class*="badge"]');
     const count = await badges.count();
 
-    // Pode ter badges
+    // May have badges
     expect(count).toBeGreaterThanOrEqual(0);
   });
 
-  test('deve ter cards com hover effect', async ({ page }) => {
+  test('should have cards with hover effect', async ({ page }) => {
     const filmCards = page.locator('[data-testid="film-card"]');
     const count = await filmCards.count();
 
     if (count > 0) {
       const firstCard = filmCards.first();
 
-      // Verifica que o card existe e é visível
+      // Verify card exists and is visible
       await expect(firstCard).toBeVisible();
 
-      // Faz hover
+      // Hover over it
       await firstCard.hover();
 
-      // Card deve continuar visível após hover
+      // Card should remain visible after hover
       await expect(firstCard).toBeVisible();
     }
   });
 
-  test('deve carregar dados em menos de 5 segundos', async ({ page }) => {
+  test('should load data in less than 5 seconds', async ({ page }) => {
     await page.goto('/planets');
     await page.waitForSelector('[data-testid="planet-card"]');
 
     const startTime = Date.now();
     await page.locator('[data-testid="planet-card"]').first().click();
 
-    // Aguarda o título aparecer
+    // Wait for title to appear
     await page.locator('h1').waitFor({ state: 'visible' });
     const loadTime = Date.now() - startTime;
 
     expect(loadTime).toBeLessThan(5000);
   });
 
-  test('deve ter estrutura semântica de headings', async ({ page }) => {
-    // H1 para título principal
+  test('should have semantic heading structure', async ({ page }) => {
+    // H1 for main title
     const h1 = page.locator('h1');
     await expect(h1).toBeVisible();
 
-    // H2 ou H3 para seções
+    // H2 or H3 for sections
     const headings = page.locator('h2, h3');
     const count = await headings.count();
     expect(count).toBeGreaterThanOrEqual(0);
   });
 
-  test('deve mostrar indicador de sincronização quando aplicável (optimistic UI)', async ({
+  test('should show sync indicator when applicable (optimistic UI)', async ({
     page,
   }) => {
-    // Verifica se há badge de sync
+    // Check if there's a sync badge
     const syncBadge = page.getByTestId('planet-sync-indicator');
     const count = await syncBadge.count();
 
-    // Se aparecer durante o carregamento, deve estar visível
+    // If it appears during loading, should be visible
     if (count > 0) {
       await expect(syncBadge).toBeVisible();
     }
   });
 
-  test('mantém dados visíveis durante refetch (optimistic UI)', async ({
+  test('keeps data visible during refetch (optimistic UI)', async ({
     page,
   }) => {
-    // Aguarda carregamento inicial
+    // Wait for initial load
     const heading = page.locator('h1');
     await expect(heading).toBeVisible();
 
     const planetName = await heading.textContent();
     expect(planetName).toBeTruthy();
 
-    // Força refetch navegando para outra página e voltando
+    // Force refetch by navigating to another page and coming back
     await page.goto('/planets');
     await page.waitForTimeout(500);
 
-    // Volta para o mesmo planeta
+    // Go back to the same planet
     await page.goBack();
 
-    // Nome deve continuar visível (optimistic UI mantém dados anteriores)
+    // Name should remain visible (optimistic UI keeps previous data)
     await expect(heading).toBeVisible();
   });
 });

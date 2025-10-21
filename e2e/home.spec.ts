@@ -1,124 +1,120 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test.describe('Home Page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
 
-  test('deve exibir o título e descrição corretos', async ({ page }) => {
-    // Verifica título principal com parte do texto
+  test('should display correct title and description', async ({ page }) => {
+    // Verifies main heading
     await expect(
-      page.getByRole('heading', { name: /Explore mundos vivos/i })
+      page.getByRole('heading', { name: /Explore living worlds/i })
     ).toBeVisible();
 
-    // Verifica descrição
+    // Verifies description
     await expect(
-      page.getByText(/Cada planeta chega instantaneamente/i)
+      page.getByText(/Each planet arrives instantly/i)
     ).toBeVisible();
   });
 
-  test('deve ter botão para explorar planetas', async ({ page }) => {
-    // Verifica botão principal
-    const button = page.getByRole('link', { name: /Explorar Planetas/i });
+  test('should have button to explore planets', async ({ page }) => {
+    // Verifies main button
+    const button = page.getByRole('link', { name: /Explore Planets/i });
     await expect(button).toBeVisible();
     await expect(button).toHaveAttribute('href', '/planets');
   });
 
-  test('deve ter link funcional para planetas', async ({ page }) => {
-    // Clica no botão de Explorar Planetas
-    await page.getByRole('link', { name: /Explorar Planetas/i }).click();
+  test('should have functional link to planets', async ({ page }) => {
+    // Clicks the Explore Planets button
+    await page.getByRole('link', { name: /Explore Planets/i }).click();
 
-    // Aguarda navegação e verifica a URL
+    // Waits for navigation and verifies URL
     await page.waitForURL('/planets');
     await expect(page).toHaveURL(/\/planets/);
   });
 
-  test('deve ter meta tags corretas', async ({ page }) => {
-    // Verifica título da página
+  test('should have correct meta tags', async ({ page }) => {
+    // Verifies page title
     await expect(page).toHaveTitle(/SWAPI/i);
   });
 
-  test('deve ser responsivo em mobile', async ({ page }) => {
+  test('should be responsive on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
 
-    // Verifica que todos os elementos ainda são visíveis
+    // Verifies that all elements are still visible
     await expect(
-      page.getByRole('heading', { name: /Explore mundos vivos/i })
+      page.getByRole('heading', { name: /Explore living worlds/i })
     ).toBeVisible();
     await expect(
-      page.getByRole('link', { name: /Explorar Planetas/i })
+      page.getByRole('link', { name: /Explore Planets/i })
     ).toBeVisible();
   });
 
-  test('deve ter layout centralizado', async ({ page }) => {
+  test('should have centered layout', async ({ page }) => {
     const container = page.locator('div.flex.min-h-\\[calc\\(100vh-4rem\\)\\]');
     await expect(container).toBeVisible();
   });
 
-  test('botão deve ter tamanho grande (lg)', async ({ page }) => {
-    const button = page.getByRole('link', { name: /Explorar Planetas/i });
+  test('button should have large size (lg)', async ({ page }) => {
+    const button = page.getByRole('link', { name: /Explore Planets/i });
 
-    // Verifica que o botão tem aparência de destaque
+    // Verifies that button has prominent appearance
     await expect(button).toBeVisible();
     const box = await button.boundingBox();
-    expect(box?.height).toBeGreaterThanOrEqual(40); // Botões lg são maiores ou iguais a 40
+    expect(box?.height).toBeGreaterThanOrEqual(40); // lg buttons are >= 40px
   });
 
-  test('deve carregar rapidamente (performance)', async ({ page }) => {
+  test('should load quickly (performance)', async ({ page }) => {
     const startTime = Date.now();
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     const loadTime = Date.now() - startTime;
 
-    // Página inicial deve carregar em menos de 5 segundos
+    // Home page should load in less than 5 seconds
     expect(loadTime).toBeLessThan(5000);
   });
 
-  test('deve ter acessibilidade adequada', async ({ page }) => {
-    // Verifica estrutura de heading
+  test('should have adequate accessibility', async ({ page }) => {
+    // Verifies heading structure
     const h1 = page.getByRole('heading', { level: 1 });
     await expect(h1).toBeVisible();
 
-    // Verifica que o link é focável
-    const link = page.getByRole('link', { name: /Explorar Planetas/i });
+    // Verifies that link is focusable
+    const link = page.getByRole('link', { name: /Explore Planets/i });
     await link.focus();
     await expect(link).toBeFocused();
   });
 
-  test('deve exibir card do planeta quando dados carregarem', async ({
-    page,
-  }) => {
-    // Aguarda o card aparecer (optimistic UI)
+  test('should display planet card when data loads', async ({ page }) => {
+    // Waits for card to appear (optimistic UI)
     await page.waitForTimeout(2000);
 
-    // Verifica se há um card de planeta
+    // Verifies if there's a planet card
     const card = page.locator('div[class*="card"]').first();
     const isVisible = await card.isVisible();
 
     if (isVisible) {
-      // Se houver card, verifica conteúdo básico
+      // If there's a card, verifies basic content
       await expect(card).toBeVisible();
     }
   });
 
-  test('deve mostrar badge de sincronização quando aplicável', async ({
-    page,
-  }) => {
-    // Badge pode aparecer se houver sincronização
-    const syncBadge = page.getByText(/sincronizado|ao vivo/i);
-    // Apenas verifica se existir, não falha se não existir
+  test('should show sync badge when applicable', async ({ page }) => {
+    // Badge may appear if there's synchronization
+    const syncBadge = page.getByText(/synced|live/i);
+    // Only verifies if it exists, doesn't fail if it doesn't
     const count = await syncBadge.count();
     if (count > 0) {
       await expect(syncBadge.first()).toBeVisible();
     }
   });
 
-  test('deve exibir seção de tecnologias', async ({ page }) => {
+  test('should display technologies section', async ({ page }) => {
     await expect(
-      page.getByText(/Construído com tecnologias modernas/i)
+      page.getByText(/Built with modern technologies/i)
     ).toBeVisible();
 
-    // Verifica algumas tecnologias
+    // Verifies some technologies
     await expect(page.getByText(/Next\.js/i)).toBeVisible();
     await expect(page.getByText(/TypeScript/i)).toBeVisible();
     await expect(page.getByText(/React Query/i)).toBeVisible();

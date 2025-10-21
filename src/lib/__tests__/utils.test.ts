@@ -309,7 +309,6 @@ describe('utils', () => {
       throttledFn('second');
       throttledFn('third');
 
-      // Only the first call should be executed
       expect(fn).toHaveBeenCalledTimes(1);
       expect(fn).toHaveBeenCalledWith('first');
     });
