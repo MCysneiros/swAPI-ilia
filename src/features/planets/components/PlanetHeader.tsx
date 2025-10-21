@@ -18,7 +18,7 @@ export function PlanetHeader({
       <div className="flex gap-2">
         <Link href="/planets">
           <Button variant="outline" className="w-full sm:w-auto">
-            Voltar
+            Return
           </Button>
         </Link>
         <Button
@@ -27,7 +27,7 @@ export function PlanetHeader({
           disabled={isDeleting}
           className="w-full sm:w-auto"
         >
-          {isDeleting ? 'Deletando...' : 'Deletar'}
+          {isDeleting ? 'Deleting...' : 'Delete'}
         </Button>
       </div>
     </div>

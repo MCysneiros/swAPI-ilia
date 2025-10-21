@@ -11,6 +11,9 @@ interface PlanetFilmsProps {
 
 export function PlanetFilms({ films }: PlanetFilmsProps) {
   const { data: filmsData = [], isLoading } = useFilms(films);
+  const sortedFilms = [...filmsData].sort(
+    (a, b) => a.episode_id - b.episode_id
+  );
 
   if (films.length === 0) {
     return (
@@ -43,11 +46,6 @@ export function PlanetFilms({ films }: PlanetFilmsProps) {
       </Card>
     );
   }
-
-  // Sort by episode
-  const sortedFilms = [...filmsData].sort(
-    (a, b) => a.episode_id - b.episode_id
-  );
 
   return (
     <Card className="lg:col-span-2">

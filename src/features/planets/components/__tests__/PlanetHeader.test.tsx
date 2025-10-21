@@ -18,7 +18,7 @@ describe('PlanetHeader', () => {
       <PlanetHeader name="Tatooine" onDelete={onDelete} isDeleting={false} />
     );
 
-    const deleteButton = screen.getByRole('button', { name: /deletar/i });
+    const deleteButton = screen.getByRole('button', { name: /delete/i });
     fireEvent.click(deleteButton);
 
     expect(onDelete).toHaveBeenCalledTimes(1);
@@ -30,7 +30,7 @@ describe('PlanetHeader', () => {
       <PlanetHeader name="Tatooine" onDelete={onDelete} isDeleting={true} />
     );
 
-    const deleteButton = screen.getByRole('button', { name: /deletando/i });
+    const deleteButton = screen.getByRole('button', { name: /Deleting/i });
     expect(deleteButton).toBeDisabled();
   });
 
@@ -40,7 +40,7 @@ describe('PlanetHeader', () => {
       <PlanetHeader name="Tatooine" onDelete={onDelete} isDeleting={false} />
     );
 
-    const backButton = screen.getByRole('link', { name: /voltar/i });
+    const backButton = screen.getByRole('link', { name: /return/i });
     expect(backButton).toHaveAttribute('href', '/planets');
   });
 });
