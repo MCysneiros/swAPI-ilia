@@ -8,15 +8,13 @@ test.describe('Planets List - Films Display', () => {
     });
   });
 
-  test('deve exibir seção de filmes em cada card de planeta', async ({
-    page,
-  }) => {
+  test('should display films section in each planet card', async ({ page }) => {
     const firstCard = page.locator('[data-testid="planet-card"]').first();
 
     await expect(firstCard.getByText('Films:')).toBeVisible();
   });
 
-  test('deve exibir badges com títulos dos filmes', async ({ page }) => {
+  test('should display badges with film titles', async ({ page }) => {
     await page.waitForTimeout(2000);
 
     const firstCard = page.locator('[data-testid="planet-card"]').first();
@@ -29,9 +27,7 @@ test.describe('Planets List - Films Display', () => {
     expect(count).toBeGreaterThan(0);
   });
 
-  test('deve exibir skeleton durante carregamento dos filmes', async ({
-    page,
-  }) => {
+  test('should display skeleton during film loading', async ({ page }) => {
     await page.goto('/planets');
 
     const firstCard = page.locator('[data-testid="planet-card"]').first();
@@ -43,9 +39,11 @@ test.describe('Planets List - Films Display', () => {
     });
   });
 
-  test('deve exibir "No films" para planetas sem filmes', async ({ page }) => {
+  test('should display "No films" for planets without films', async ({
+    page,
+  }) => {
     await page.waitForSelector('a[href^="/planets/"]', { timeout: 10000 });
-    await page.waitForTimeout(2000); // Aguarda filmes carregarem
+    await page.waitForTimeout(2000); // Wait for films to load
 
     const noFilmsText = page.getByText('No films');
 
@@ -56,7 +54,7 @@ test.describe('Planets List - Films Display', () => {
     }
   });
 
-  test('badges de filmes devem ter estilo outline', async ({ page }) => {
+  test('film badges should have outline style', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -77,7 +75,7 @@ test.describe('Planets List - Films Display', () => {
     }
   });
 
-  test('deve exibir ícone de filme na seção', async ({ page }) => {
+  test('should display film icon in the section', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -88,9 +86,7 @@ test.describe('Planets List - Films Display', () => {
     await expect(filmIcon).toBeVisible();
   });
 
-  test('filmes devem estar separados dos outros dados do planeta', async ({
-    page,
-  }) => {
+  test('films should be separated from other planet data', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -104,7 +100,7 @@ test.describe('Planets List - Films Display', () => {
     await expect(firstCard.getByText('Films:')).toBeVisible();
   });
 
-  test('deve exibir múltiplos filmes para planetas que aparecem em vários', async ({
+  test('should display multiple films for planets that appear in several', async ({
     page,
   }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
@@ -151,7 +147,7 @@ test.describe('Planets List - Films Display', () => {
     }
   });
 
-  test('filmes devem ser responsivos em mobile', async ({ page }) => {
+  test('films should be responsive in mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/planets');
 
@@ -172,7 +168,7 @@ test.describe('Planets List - Films Display', () => {
     expect(badgeCount).toBeGreaterThanOrEqual(0);
   });
 
-  test('deve manter filmes ao fazer busca', async ({ page }) => {
+  test('should maintain films when searching', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -191,7 +187,9 @@ test.describe('Planets List - Films Display', () => {
     await expect(firstCard.getByText('Films:')).toBeVisible();
   });
 
-  test('deve manter filmes ao navegar entre páginas', async ({ page }) => {
+  test('should maintain films when navigating between pages', async ({
+    page,
+  }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -200,7 +198,7 @@ test.describe('Planets List - Films Display', () => {
     const firstCard = page.locator('[data-testid="planet-card"]').first();
     await expect(firstCard.getByText('Films:')).toBeVisible();
 
-    const nextButton = page.getByRole('button', { name: /next|próxima/i });
+    const nextButton = page.getByRole('button', { name: /next/i });
 
     if ((await nextButton.count()) > 0 && !(await nextButton.isDisabled())) {
       await nextButton.click();
@@ -219,9 +217,7 @@ test.describe('Planets List - General Requirements', () => {
     await page.goto('/planets');
   });
 
-  test('lista deve estar ordenada por nome alfabeticamente', async ({
-    page,
-  }) => {
+  test('list should be sorted alphabetically by name', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -245,7 +241,7 @@ test.describe('Planets List - General Requirements', () => {
     expect(planetNames).toEqual(sortedNames);
   });
 
-  test('deve exibir 10 itens por página', async ({ page }) => {
+  test('should display 10 items per page', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -257,19 +253,17 @@ test.describe('Planets List - General Requirements', () => {
     expect(count).toBeGreaterThan(0);
   });
 
-  test('paginação deve estar presente com múltiplas páginas', async ({
-    page,
-  }) => {
+  test('pagination should be present with multiple pages', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
 
-    const nextButton = page.getByRole('button', { name: /next|próxima/i });
+    const nextButton = page.getByRole('button', { name: /next/i });
 
     expect(await nextButton.count()).toBeGreaterThan(0);
   });
 
-  test('deve ter campo de busca funcional', async ({ page }) => {
+  test('should have functional search field', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -288,7 +282,7 @@ test.describe('Planets List - General Requirements', () => {
     await expect(firstCard).toContainText(/Hoth/i);
   });
 
-  test('deve ser responsivo e mobile-first', async ({ page }) => {
+  test('should be responsive and mobile-first', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/planets');
 
@@ -305,7 +299,9 @@ test.describe('Planets List - General Requirements', () => {
     await expect(firstCard).toBeVisible();
   });
 
-  test('cards devem ter nome, terreno, diâmetro e clima', async ({ page }) => {
+  test('cards should have name, terrain, diameter and climate', async ({
+    page,
+  }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -330,7 +326,7 @@ test.describe('Planets List - General Requirements', () => {
     await expect(firstCard.getByText('Diameter:')).toBeVisible();
   });
 
-  test('deve usar Tailwind CSS para estilização', async ({ page }) => {
+  test('should use Tailwind CSS for styling', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -345,7 +341,7 @@ test.describe('Planets List - General Requirements', () => {
     expect(classes).toContain('rounded'); // Tailwind class
   });
 
-  test('deve usar rotas do Next.js', async ({ page }) => {
+  test('should use Next.js routes', async ({ page }) => {
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });

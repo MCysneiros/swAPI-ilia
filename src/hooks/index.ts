@@ -1,5 +1,5 @@
 /**
- * Barrel export para todos os hooks customizados
+ * Barrel export for all custom hooks
  */
 
 export * from './useDebounce';

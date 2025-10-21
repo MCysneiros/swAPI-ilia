@@ -18,16 +18,16 @@ describe('Pagination', () => {
     it('should render pagination controls', () => {
       render(<Pagination {...defaultProps} />);
 
-      expect(screen.getByLabelText('Primeira página')).toBeInTheDocument();
-      expect(screen.getByLabelText('Página anterior')).toBeInTheDocument();
-      expect(screen.getByLabelText('Próxima página')).toBeInTheDocument();
-      expect(screen.getByLabelText('Última página')).toBeInTheDocument();
+      expect(screen.getByLabelText('First page')).toBeInTheDocument();
+      expect(screen.getByLabelText('Previous page')).toBeInTheDocument();
+      expect(screen.getByLabelText('Next page')).toBeInTheDocument();
+      expect(screen.getByLabelText('Last page')).toBeInTheDocument();
     });
 
     it('should display current page info', () => {
       render(<Pagination {...defaultProps} currentPage={5} />);
 
-      expect(screen.getByText('Página 5 de 10')).toBeInTheDocument();
+      expect(screen.getByText('Page 5 of 10')).toBeInTheDocument();
     });
 
     it('should render all buttons', () => {
@@ -42,8 +42,8 @@ describe('Pagination', () => {
     it('should disable first and previous buttons on first page', () => {
       render(<Pagination {...defaultProps} currentPage={1} />);
 
-      const firstButton = screen.getByLabelText('Primeira página');
-      const prevButton = screen.getByLabelText('Página anterior');
+      const firstButton = screen.getByLabelText('First page');
+      const prevButton = screen.getByLabelText('Previous page');
 
       expect(firstButton).toBeDisabled();
       expect(prevButton).toBeDisabled();
@@ -52,8 +52,8 @@ describe('Pagination', () => {
     it('should enable next and last buttons on first page', () => {
       render(<Pagination {...defaultProps} currentPage={1} />);
 
-      const nextButton = screen.getByLabelText('Próxima página');
-      const lastButton = screen.getByLabelText('Última página');
+      const nextButton = screen.getByLabelText('Next page');
+      const lastButton = screen.getByLabelText('Last page');
 
       expect(nextButton).toBeEnabled();
       expect(lastButton).toBeEnabled();
@@ -64,8 +64,8 @@ describe('Pagination', () => {
     it('should disable next and last buttons on last page', () => {
       render(<Pagination {...defaultProps} currentPage={10} totalPages={10} />);
 
-      const nextButton = screen.getByLabelText('Próxima página');
-      const lastButton = screen.getByLabelText('Última página');
+      const nextButton = screen.getByLabelText('Next page');
+      const lastButton = screen.getByLabelText('Last page');
 
       expect(nextButton).toBeDisabled();
       expect(lastButton).toBeDisabled();
@@ -74,8 +74,8 @@ describe('Pagination', () => {
     it('should enable first and previous buttons on last page', () => {
       render(<Pagination {...defaultProps} currentPage={10} totalPages={10} />);
 
-      const firstButton = screen.getByLabelText('Primeira página');
-      const prevButton = screen.getByLabelText('Página anterior');
+      const firstButton = screen.getByLabelText('First page');
+      const prevButton = screen.getByLabelText('Previous page');
 
       expect(firstButton).toBeEnabled();
       expect(prevButton).toBeEnabled();
@@ -106,7 +106,7 @@ describe('Pagination', () => {
         />
       );
 
-      const firstButton = screen.getByLabelText('Primeira página');
+      const firstButton = screen.getByLabelText('First page');
       await user.click(firstButton);
 
       expect(onPageChange).toHaveBeenCalledWith(1);
@@ -124,7 +124,7 @@ describe('Pagination', () => {
         />
       );
 
-      const prevButton = screen.getByLabelText('Página anterior');
+      const prevButton = screen.getByLabelText('Previous page');
       await user.click(prevButton);
 
       expect(onPageChange).toHaveBeenCalledWith(4);
@@ -142,7 +142,7 @@ describe('Pagination', () => {
         />
       );
 
-      const nextButton = screen.getByLabelText('Próxima página');
+      const nextButton = screen.getByLabelText('Next page');
       await user.click(nextButton);
 
       expect(onPageChange).toHaveBeenCalledWith(6);
@@ -160,7 +160,7 @@ describe('Pagination', () => {
         />
       );
 
-      const lastButton = screen.getByLabelText('Última página');
+      const lastButton = screen.getByLabelText('Last page');
       await user.click(lastButton);
 
       expect(onPageChange).toHaveBeenCalledWith(10);
@@ -178,7 +178,7 @@ describe('Pagination', () => {
         />
       );
 
-      const firstButton = screen.getByLabelText('Primeira página');
+      const firstButton = screen.getByLabelText('First page');
       await user.click(firstButton);
 
       expect(onPageChange).not.toHaveBeenCalled();
@@ -191,8 +191,8 @@ describe('Pagination', () => {
         <Pagination {...defaultProps} currentPage={5} hasNextPage={false} />
       );
 
-      const nextButton = screen.getByLabelText('Próxima página');
-      const lastButton = screen.getByLabelText('Última página');
+      const nextButton = screen.getByLabelText('Next page');
+      const lastButton = screen.getByLabelText('Last page');
 
       expect(nextButton).toBeDisabled();
       expect(lastButton).toBeDisabled();
@@ -203,8 +203,8 @@ describe('Pagination', () => {
         <Pagination {...defaultProps} currentPage={5} hasPreviousPage={false} />
       );
 
-      const firstButton = screen.getByLabelText('Primeira página');
-      const prevButton = screen.getByLabelText('Página anterior');
+      const firstButton = screen.getByLabelText('First page');
+      const prevButton = screen.getByLabelText('Previous page');
 
       expect(firstButton).toBeDisabled();
       expect(prevButton).toBeDisabled();
@@ -226,7 +226,7 @@ describe('Pagination', () => {
         <Pagination {...defaultProps} currentPage={999} totalPages={1000} />
       );
 
-      expect(screen.getByText('Página 999 de 1000')).toBeInTheDocument();
+      expect(screen.getByText('Page 999 of 1000')).toBeInTheDocument();
     });
   });
 
@@ -252,10 +252,10 @@ describe('Pagination', () => {
     it('should have proper aria-labels', () => {
       render(<Pagination {...defaultProps} />);
 
-      expect(screen.getByLabelText('Primeira página')).toBeInTheDocument();
-      expect(screen.getByLabelText('Página anterior')).toBeInTheDocument();
-      expect(screen.getByLabelText('Próxima página')).toBeInTheDocument();
-      expect(screen.getByLabelText('Última página')).toBeInTheDocument();
+      expect(screen.getByLabelText('First page')).toBeInTheDocument();
+      expect(screen.getByLabelText('Previous page')).toBeInTheDocument();
+      expect(screen.getByLabelText('Next page')).toBeInTheDocument();
+      expect(screen.getByLabelText('Last page')).toBeInTheDocument();
     });
 
     it('should be keyboard navigable', async () => {
@@ -270,7 +270,7 @@ describe('Pagination', () => {
         />
       );
 
-      const nextButton = screen.getByLabelText('Próxima página');
+      const nextButton = screen.getByLabelText('Next page');
       nextButton.focus();
 
       await user.keyboard('{Enter}');

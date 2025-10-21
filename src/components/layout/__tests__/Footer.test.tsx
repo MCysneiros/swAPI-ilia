@@ -31,7 +31,6 @@ describe('Footer', () => {
   it('should display heart icon', () => {
     const { container } = render(<Footer />);
 
-    // Look for heart icon with red fill
     const heartIcon = container.querySelector('.fill-red-500');
     expect(heartIcon).toBeInTheDocument();
   });

@@ -157,7 +157,7 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg border border-primary/20 px-3 py-2 text-sm">
+                    <div className="flex items-center justify-between gap-1 rounded-lg border border-primary/20 px-3 py-2 text-sm">
                       <div>
                         <p className="font-medium text-foreground">
                           Appears in films

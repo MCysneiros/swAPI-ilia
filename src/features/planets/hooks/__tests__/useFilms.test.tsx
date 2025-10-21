@@ -172,11 +172,11 @@ describe('useFilms', () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    // Verifica que não refetch automaticamente
+    // Verify that it doesn't refetch automatically
     expect(result.current.isRefetching).toBe(false);
   });
 
-  it('deve usar query key baseado nas URLs fornecidas', async () => {
+  it('should use query key based on provided URLs', async () => {
     const filmUrls1 = ['https://swapi.dev/api/films/1/'];
     const filmUrls2 = ['https://swapi.dev/api/films/2/'];
 

@@ -182,7 +182,7 @@ describe('planetsApi (Client-side)', () => {
 
         const result = await getPlanets(1, 'Hoth');
 
-        // MSW retorna array vazio para "Hoth"
+        // MSW returns empty array for "Hoth"
         expect(result).toEqual(emptyResponse);
       });
     });

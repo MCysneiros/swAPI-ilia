@@ -3,7 +3,7 @@ import { env } from '@/lib/env';
 export const API_CONFIG = {
   baseURL: env.NEXT_PUBLIC_API_BASE_URL,
   timeout: 10000,
-  revalidate: 300, // 5 minutos (para Next.js fetch)
+  revalidate: 300, // 5 minutes (for Next.js fetch)
   headers: {
     'Content-Type': 'application/json',
   },

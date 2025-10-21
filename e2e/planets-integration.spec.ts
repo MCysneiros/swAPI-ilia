@@ -111,9 +111,11 @@ test.describe('Planets - Error Handling', () => {
     });
 
     await page.goto('/planets/1');
-    await expect(page.getByText(/erro|error|não foi possível/i)).toBeVisible({
-      timeout: 5000,
-    });
+    await expect(page.getByText(/error|could not|failed/i).first()).toBeVisible(
+      {
+        timeout: 5000,
+      }
+    );
   });
 
   test('should handle network timeout gracefully', async ({ page }) => {
@@ -356,7 +358,7 @@ test.describe('Planets - Internationalization (i18n)', () => {
     expect(typeof hasBrazilianDate).toBe('boolean');
   });
 
-  test('should format large numbers with Brazilian separators', async ({
+  test('should format large numbers with locale separators', async ({
     page,
   }) => {
     await page.goto('/planets/1');
