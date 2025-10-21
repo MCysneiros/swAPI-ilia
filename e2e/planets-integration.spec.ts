@@ -240,7 +240,9 @@ test.describe('Planets - Data Integrity', () => {
     // The text should be safely rendered, not executed
     const pageContent = await page.content();
     // If the content contains the escaped version or no xss at all, it's safe
-    const hasRawScript = pageContent.includes('<script>alert("xss")</script>') && !pageContent.includes('&lt;script&gt;');
+    const hasRawScript =
+      pageContent.includes('<script>alert("xss")</script>') &&
+      !pageContent.includes('&lt;script&gt;');
     expect(hasRawScript).toBeFalsy();
   });
 });
