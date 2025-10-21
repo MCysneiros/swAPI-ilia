@@ -17,9 +17,9 @@ describe('PlanetResidents', () => {
 
     render(<PlanetResidents residents={[]} />);
 
-    expect(screen.getByText('Nativos')).toBeInTheDocument();
+    expect(screen.getByText('Residents')).toBeInTheDocument();
     expect(
-      screen.getByText('Este planeta não possui nativos conhecidos.')
+      screen.getByText('This planet has no known residents.')
     ).toBeInTheDocument();
   });
 
@@ -52,6 +52,6 @@ describe('PlanetResidents', () => {
 
     render(<PlanetResidents residents={['url1']} />);
 
-    expect(screen.getByText('Nativos (1)')).toBeInTheDocument();
+    expect(screen.getByText('Residents (1)')).toBeInTheDocument();
   });
 });

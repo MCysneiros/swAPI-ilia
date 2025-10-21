@@ -6,21 +6,21 @@ describe('PlanetError', () => {
   it('should render error message', () => {
     render(<PlanetError />);
 
-    expect(screen.getByText('Erro ao carregar planeta')).toBeInTheDocument();
+    expect(screen.getByText('Error loading planet')).toBeInTheDocument();
   });
 
   it('should render error description', () => {
     render(<PlanetError />);
 
     expect(
-      screen.getByText(/Não foi possível carregar os detalhes do planeta/i)
+      screen.getByText(/Could not load planet details/i)
     ).toBeInTheDocument();
   });
 
   it('should render back to list button', () => {
     render(<PlanetError />);
 
-    const backButton = screen.getByRole('link', { name: /voltar para lista/i });
+    const backButton = screen.getByRole('link', { name: /back to list/i });
     expect(backButton).toHaveAttribute('href', '/planets');
   });
 

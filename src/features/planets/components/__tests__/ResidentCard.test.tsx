@@ -29,10 +29,10 @@ describe('ResidentCard', () => {
     expect(screen.getByText('blue')).toBeInTheDocument();
   });
 
-  it('should translate gender to Portuguese', () => {
+  it('should translate gender to English', () => {
     render(<ResidentCard resident={mockResident} />);
 
-    expect(screen.getByText('Masculino')).toBeInTheDocument();
+    expect(screen.getByText('Male')).toBeInTheDocument();
   });
 
   it('should render species information', () => {
@@ -52,20 +52,20 @@ describe('ResidentCard', () => {
     const residentWithoutSpecies = { ...mockResident, species: [] };
     render(<ResidentCard resident={residentWithoutSpecies} />);
 
-    expect(screen.queryByText('Espécie(s):')).not.toBeInTheDocument();
+    expect(screen.queryByText('Species:')).not.toBeInTheDocument();
   });
 
   it('should not render vehicles section when empty', () => {
     const residentWithoutVehicles = { ...mockResident, vehicles: [] };
     render(<ResidentCard resident={residentWithoutVehicles} />);
 
-    expect(screen.queryByText('Veículo(s):')).not.toBeInTheDocument();
+    expect(screen.queryByText('Vehicle(s):')).not.toBeInTheDocument();
   });
 
   it('should handle female gender', () => {
     const femaleResident = { ...mockResident, gender: 'female' };
     render(<ResidentCard resident={femaleResident} />);
 
-    expect(screen.getByText('Feminino')).toBeInTheDocument();
+    expect(screen.getByText('Female')).toBeInTheDocument();
   });
 });

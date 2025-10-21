@@ -101,7 +101,7 @@ describe('ErrorState', () => {
     render(<ErrorState onRetry={onRetry} />);
 
     const retryButton = screen.getByRole('button', {
-      name: /tentar novamente/i,
+      name: /try again/i,
     });
     expect(retryButton).toBeEnabled();
   });

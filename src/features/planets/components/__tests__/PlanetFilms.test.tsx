@@ -17,9 +17,9 @@ describe('PlanetFilms', () => {
 
     render(<PlanetFilms films={[]} />);
 
-    expect(screen.getByText('Filmes')).toBeInTheDocument();
+    expect(screen.getByText('Films')).toBeInTheDocument();
     expect(
-      screen.getByText('Este planeta não aparece em nenhum filme.')
+      screen.getByText('This planet does not appear in any films.')
     ).toBeInTheDocument();
   });
 
@@ -51,7 +51,7 @@ describe('PlanetFilms', () => {
 
     render(<PlanetFilms films={['url1']} />);
 
-    expect(screen.getByText('Filmes (1)')).toBeInTheDocument();
+    expect(screen.getByText('Films (1)')).toBeInTheDocument();
   });
 
   it('should sort films by episode ID', () => {
