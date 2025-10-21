@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { Loader2, Search } from 'lucide-react';
 import { PlanetListCard, usePlanetsQuery } from '@/features/planets';
 import { PAGINATION } from '@/constants';
@@ -13,7 +14,7 @@ import {
 } from '@/components/shared';
 import { Input } from '@/components/ui/input';
 
-export default function PlanetsPage() {
+function PlanetsContent() {
   const { currentPage, search, setCurrentPage, setSearch } = useQueryParams(
     PAGINATION.defaultPage
   );
@@ -136,5 +137,13 @@ export default function PlanetsPage() {
         )}
       </div>
     </PageContainer>
+  );
+}
+
+export default function PlanetsPage() {
+  return (
+    <Suspense fallback={<ListSkeleton count={6} />}>
+      <PlanetsContent />
+    </Suspense>
   );
 }
