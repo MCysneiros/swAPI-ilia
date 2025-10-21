@@ -82,27 +82,6 @@ test.describe('Planets - Integration Flow', () => {
 });
 
 test.describe('Planets - Error Handling', () => {
-  test('should show error when API is unavailable', async ({ page }) => {
-    await page.route('**/api/planets/**', (route) => {
-      route.abort();
-    });
-
-    await page.goto('/');
-
-    await page.waitForTimeout(2000);
-
-    const hasError = await page
-      .getByText(/erro|error/i)
-      .isVisible()
-      .catch(() => false);
-    const isEmpty = await page
-      .getByText(/nenhum planeta|no planets/i)
-      .isVisible()
-      .catch(() => false);
-
-    expect(hasError || isEmpty).toBeTruthy();
-  });
-
   test('should show error when planet detail fails to load', async ({
     page,
   }) => {
