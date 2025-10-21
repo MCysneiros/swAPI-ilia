@@ -132,7 +132,7 @@ export const queryKeys = {
   ```bash
   pnpm test:e2e        # Execução headless
   pnpm test:e2e:ui     # Runner interativo
-  pnpm test:e2e:desafio # Fluxo completo usado em avaliações
+  pnpm test:e2e:challenge # Fluxo completo usado em avaliações
   ```
 - Relatórios disponíveis em `playwright-report/` e `test-results/`.
 
@@ -163,8 +163,8 @@ pnpm test               # Vitest headless
 pnpm test:ui            # Vitest UI
 pnpm test:e2e           # Playwright headless
 pnpm test:e2e:ui        # Playwright UI
-pnpm test:e2e:desafio   # Cenário completo de desafio
-pnpm prepare            # Instala hooks Husky (executa lint-staged + vitest UI)
+pnpm test:e2e:challenge # Cenário completo de desafio
+pnpm prepare            # Instala/atualiza os hooks do Husky
 ```
 
 > O hook de `pre-commit` roda `pnpm lint-staged` seguido de `pnpm test:ui`, garantindo feedback rápido antes do push.
