@@ -36,27 +36,27 @@ describe('utils', () => {
   });
 
   describe('formatDate', () => {
-    it('should format date to pt-BR by default', () => {
+    it('should format date to en-US by default', () => {
       const date = new Date('2024-01-15T10:30:00Z');
       const result = formatDate(date);
-      expect(result).toMatch(/\d{2}\/\d{2}\/\d{4}/);
+      expect(result).toMatch(/\d{1,2}\/\d{1,2}\/\d{4}/);
     });
 
     it('should accept ISO string as input', () => {
       const result = formatDate('2024-01-15T10:30:00Z');
-      expect(result).toMatch(/\d{2}\/\d{2}\/\d{4}/);
+      expect(result).toMatch(/\d{1,2}\/\d{1,2}\/\d{4}/);
     });
 
     it('should accept custom locale', () => {
       const date = new Date('2024-01-15T10:30:00Z');
-      const result = formatDate(date, 'en-US');
-      // American format MM/DD/YYYY
+      const result = formatDate(date, 'pt-BR');
+      // Brazilian format DD/MM/YYYY
       expect(result).toMatch(/\d{2}\/\d{2}\/\d{4}/);
     });
 
     it('should accept custom format options', () => {
       const date = new Date('2024-01-15T10:30:00Z');
-      const result = formatDate(date, 'pt-BR', {
+      const result = formatDate(date, 'en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
