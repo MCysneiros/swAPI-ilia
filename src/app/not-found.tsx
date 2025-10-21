@@ -35,7 +35,6 @@ export default function NotFound() {
           <Rocket className="h-16 w-16 text-muted-foreground sm:h-20 sm:w-20" />
         </motion.div>
 
-        {/* Title */}
         <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
           Perdido no Espaço
         </h2>

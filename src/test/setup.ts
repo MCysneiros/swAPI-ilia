@@ -3,7 +3,6 @@ import { cleanup } from '@testing-library/react';
 import { afterEach, beforeAll, afterAll, vi } from 'vitest';
 import { server } from './mocks/server';
 
-// Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
@@ -18,7 +17,6 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-// Mock localStorage
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
 
@@ -40,15 +38,12 @@ Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 });
 
-// Start server before all tests
 beforeAll(() => server.listen());
 
-// Reset handlers after each test
 afterEach(() => {
   cleanup();
   server.resetHandlers();
   localStorageMock.clear();
 });
 
-// Clean up after all tests
 afterAll(() => server.close());
