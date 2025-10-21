@@ -41,6 +41,6 @@ describe('PlanetHeader', () => {
     );
 
     const backButton = screen.getByRole('link', { name: /voltar/i });
-    expect(backButton).toHaveAttribute('href', '/items');
+    expect(backButton).toHaveAttribute('href', '/planets');
   });
 });

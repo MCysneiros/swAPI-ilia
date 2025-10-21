@@ -27,7 +27,7 @@ export function PlanetError() {
           Não foi possível carregar os detalhes do planeta. Por favor, tente
           novamente.
         </p>
-        <Link href="/items">
+        <Link href="/planets">
           <Button variant="outline" className="w-full">
             Voltar para lista
           </Button>

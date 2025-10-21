@@ -12,6 +12,8 @@ interface PlanetResidentsProps {
 export function PlanetResidents({ residents }: PlanetResidentsProps) {
   const { data: residentsData = [], isLoading } = useResidents(residents);
 
+  console.log('Residents Data:', residentsData);
+
   if (residents.length === 0) {
     return (
       <Card className="lg:col-span-2">

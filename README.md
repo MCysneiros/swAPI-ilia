@@ -2,6 +2,8 @@
 
 Uma aplicação moderna e completa construída com Next.js 15, TypeScript, e as melhores práticas de desenvolvimento web, utilizando a Star Wars API (SWAPI) como backend.
 
+Live demo (Vercel): https://sw-api-ilia.vercel.app/
+
 ## 🚀 Stack Tecnológica
 
 ### Core
@@ -112,41 +114,6 @@ Cada feature (ex: `items`) é autocontida com sua própria lógica de API, hooks
 - Zod para validação runtime e inferência de tipos
 - TypeScript strict mode
 - Tipagem end-to-end (API → Estado → UI)
-
-## 🎯 Funcionalidades
-
-### Páginas Implementadas
-
-#### `/items` - Lista de Personagens
-
-- ✅ Grid responsivo de cards
-- ✅ Busca em tempo real com debounce
-- ✅ Paginação com estado em URL
-- ✅ Loading skeletons
-- ✅ Empty state
-- ✅ Error state com retry
-
-#### `/items/new` - Criar Personagem
-
-- ✅ Formulário com validação
-- ✅ Feedback visual de erros
-- ✅ Mutação otimista
-- ✅ Toast de sucesso/erro
-
-#### `/items/[id]` - Detalhes do Personagem
-
-- ✅ Informações completas
-- ✅ Ações (Editar, Deletar)
-- ✅ Loading state
-- ✅ Error state
-- ✅ Placeholder data do cache de lista
-
-#### `/items/[id]/edit` - Editar Personagem
-
-- ✅ Formulário pré-populado
-- ✅ Validação
-- ✅ Atualização otimista
-- ✅ Sincronização de cache
 
 ### Gestão de Cache
 
