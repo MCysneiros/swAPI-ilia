@@ -39,7 +39,7 @@ describe('FilmCard', () => {
     expect(screen.getByText(/George Lucas/i)).toBeInTheDocument();
   });
 
-  it('should format release date in Brazilian Portuguese', () => {
+  it('should format release date in US English', () => {
     render(<FilmCard film={mockFilm} />);
 
     // Date might be formatted as 5/24/1977 or 5/25/1977 depending on timezone
