@@ -5,11 +5,16 @@ export function usePrefetchPlanet() {
   const queryClient = useQueryClient();
 
   const prefetchPlanet = (id: string) => {
-    queryClient.prefetchQuery({
-      queryKey: ['planet', id],
-      queryFn: () => getPlanet(id),
-      staleTime: 5 * 60 * 1000,
-    });
+    queryClient
+      .prefetchQuery({
+        queryKey: ['planet', id],
+        queryFn: () => getPlanet(id),
+        staleTime: 5 * 60 * 1000,
+      })
+      .catch(() => {
+        // Silently ignore prefetch errors - prefetching is an optimization
+        // and should not break the user experience
+      });
   };
 
   return { prefetchPlanet };

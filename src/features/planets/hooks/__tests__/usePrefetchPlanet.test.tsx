@@ -17,7 +17,9 @@ describe('usePrefetchPlanet', () => {
   beforeEach(() => {
     queryClient = new QueryClient({
       defaultOptions: {
-        queries: { retry: false },
+        queries: {
+          retry: false,
+        },
       },
     });
     vi.clearAllMocks();
@@ -40,6 +42,10 @@ describe('usePrefetchPlanet', () => {
 
     const { result } = renderHook(() => usePrefetchPlanet(), { wrapper });
 
+    // prefetchPlanet should handle errors internally and not throw
     expect(() => result.current.prefetchPlanet('999')).not.toThrow();
+
+    // Wait a bit to ensure the prefetch promise is handled
+    await new Promise((resolve) => setTimeout(resolve, 100));
   });
 });

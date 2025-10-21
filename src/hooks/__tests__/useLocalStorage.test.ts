@@ -148,6 +148,11 @@ describe('useLocalStorage', () => {
 
   describe('error handling', () => {
     it('should handle JSON parse errors gracefully', () => {
+      // Suppress the expected warning
+      const consoleWarnSpy = vi
+        .spyOn(console, 'warn')
+        .mockImplementation(() => {});
+
       localStorage.setItem('corruptedKey', 'invalid json {{{');
 
       const { result } = renderHook(() =>
@@ -155,14 +160,24 @@ describe('useLocalStorage', () => {
       );
 
       expect(result.current[0]).toBe('fallback');
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        'Error loading localStorage key "corruptedKey":',
+        expect.any(SyntaxError)
+      );
+
+      consoleWarnSpy.mockRestore();
     });
 
     it('should handle localStorage setItem errors', () => {
+      // Suppress the expected warning
+      const consoleWarnSpy = vi
+        .spyOn(console, 'warn')
+        .mockImplementation(() => {});
+
       const { result } = renderHook(() =>
         useLocalStorage('testKey', 'initial')
       );
 
-      // Mock localStorage.setItem to throw
       const originalSetItem = Storage.prototype.setItem;
       Storage.prototype.setItem = vi.fn(() => {
         throw new Error('QuotaExceededError');
@@ -172,11 +187,14 @@ describe('useLocalStorage', () => {
         result.current[1]('shouldFail');
       });
 
-      // Should still update state even if localStorage fails
       expect(result.current[0]).toBe('shouldFail');
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        'Error setting localStorage key "testKey":',
+        expect.any(Error)
+      );
 
-      // Restore
       Storage.prototype.setItem = originalSetItem;
+      consoleWarnSpy.mockRestore();
     });
   });
 
@@ -184,14 +202,10 @@ describe('useLocalStorage', () => {
     it('should sync state when storage event fires', () => {
       renderHook(() => useLocalStorage('syncKey', 'initial'));
 
-      // Simulate storage event from another tab
-      // Note: jsdom has limitations with StorageEvent, so we just test the localStorage update
       act(() => {
         localStorage.setItem('syncKey', JSON.stringify('fromAnotherTab'));
-        // In real browser, this would trigger a storage event
       });
 
-      // The hook should detect the change on next setValue call or re-render
       expect(localStorage.getItem('syncKey')).toBe(
         JSON.stringify('fromAnotherTab')
       );
@@ -212,23 +226,18 @@ describe('useLocalStorage', () => {
         useLocalStorage('testKey', 'initial')
       );
 
-      // Update localStorage directly
       act(() => {
         localStorage.setItem('testKey', JSON.stringify('updated'));
       });
 
-      // The hook maintains its own state until explicitly updated
       expect(result.current[0]).toBe('initial');
 
-      // But localStorage should have the new value
       expect(localStorage.getItem('testKey')).toBe(JSON.stringify('updated'));
     });
   });
 
   describe('SSR compatibility', () => {
     it('should handle server-side rendering (no window)', () => {
-      // This test would need to run in a Node.js environment without jsdom
-      // For now we just test that the hook works with localStorage present
       const { result } = renderHook(() =>
         useLocalStorage('test-key', 'default')
       );
@@ -268,8 +277,6 @@ describe('useLocalStorage', () => {
       });
 
       expect(result1.current[0]).toBe('updated');
-      // Note: In jsdom, hooks don't automatically sync unless there's a storage event
-      // In a real browser, they would sync via storage events from other tabs
       expect(localStorage.getItem('shared-key')).toBe(
         JSON.stringify('updated')
       );
