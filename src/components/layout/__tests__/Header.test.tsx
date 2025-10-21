@@ -17,21 +17,18 @@ describe('Header', () => {
   it('should render navigation links', () => {
     render(<Header />);
 
-    expect(screen.getByRole('link', { name: /home/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /planets/i })).toBeInTheDocument();
+    // Now we only have the logo link
+    const logoLink = screen.getByRole('link', { name: /swapi explorer/i });
+    expect(logoLink).toBeInTheDocument();
+    expect(logoLink).toHaveAttribute('href', '/');
   });
 
   it('should render correct href for each link', () => {
     render(<Header />);
 
-    expect(screen.getByRole('link', { name: /home/i })).toHaveAttribute(
-      'href',
-      '/'
-    );
-    expect(screen.getByRole('link', { name: /planets/i })).toHaveAttribute(
-      'href',
-      '/planets'
-    );
+    // Logo link should point to home
+    const logoLink = screen.getByRole('link', { name: /swapi explorer/i });
+    expect(logoLink).toHaveAttribute('href', '/');
   });
 
   it('should render icons for each navigation item', () => {

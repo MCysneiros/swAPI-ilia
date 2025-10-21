@@ -142,7 +142,7 @@ describe('PlanetListCard', () => {
     render(<PlanetListCard planet={mockPlanet} planetId="1" />, { wrapper });
 
     const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/planets/1');
+    expect(link).toHaveAttribute('href', '/1');
   });
 
   it('deve renderizar ícone de filme', () => {

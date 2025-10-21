@@ -5,32 +5,32 @@ test.describe('Home Page', () => {
     await page.goto('/');
   });
 
-  test('should display correct title and description', async ({ page }) => {
+  test('should display planets list title and description', async ({
+    page,
+  }) => {
     // Verifies main heading
     await expect(
-      page.getByRole('heading', { name: /Explore living worlds/i })
+      page.getByRole('heading', { name: /Planets/i, level: 1 })
     ).toBeVisible();
 
     // Verifies description
     await expect(
-      page.getByText(/Each planet arrives instantly/i)
+      page.getByText(/Explore planets from the Star Wars universe/i)
     ).toBeVisible();
   });
 
-  test('should have button to explore planets', async ({ page }) => {
-    // Verifies main button
-    const button = page.getByRole('link', { name: /Explore Planets/i });
-    await expect(button).toBeVisible();
-    await expect(button).toHaveAttribute('href', '/planets');
+  test('should display search input', async ({ page }) => {
+    // Verifies search input
+    const searchInput = page.getByTestId('planet-search-input');
+    await expect(searchInput).toBeVisible();
+    await expect(searchInput).toHaveAttribute('placeholder', /Search planets/i);
   });
 
-  test('should have functional link to planets', async ({ page }) => {
-    // Clicks the Explore Planets button
-    await page.getByRole('link', { name: /Explore Planets/i }).click();
-
-    // Waits for navigation and verifies URL
-    await page.waitForURL('/planets');
-    await expect(page).toHaveURL(/\/planets/);
+  test('should display planets count', async ({ page }) => {
+    // Verifies planets count
+    const planetsCount = page.getByTestId('planets-count');
+    await expect(planetsCount).toBeVisible();
+    await expect(planetsCount).toContainText(/planets available/i);
   });
 
   test('should have correct meta tags', async ({ page }) => {
@@ -43,25 +43,25 @@ test.describe('Home Page', () => {
 
     // Verifies that all elements are still visible
     await expect(
-      page.getByRole('heading', { name: /Explore living worlds/i })
+      page.getByRole('heading', { name: /Planets/i, level: 1 })
     ).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: /Explore Planets/i })
-    ).toBeVisible();
+    await expect(page.getByTestId('planet-search-input')).toBeVisible();
   });
 
   test('should have centered layout', async ({ page }) => {
-    const container = page.locator('div.flex.min-h-\\[calc\\(100vh-4rem\\)\\]');
+    const container = page.locator('div.space-y-6');
     await expect(container).toBeVisible();
   });
 
-  test('button should have large size (lg)', async ({ page }) => {
-    const button = page.getByRole('link', { name: /Explore Planets/i });
+  test('should display planet cards', async ({ page }) => {
+    // Waits for planet cards to appear
+    await page.waitForSelector('[data-testid="planet-card"]', {
+      timeout: 10000,
+    });
 
-    // Verifies that button has prominent appearance
-    await expect(button).toBeVisible();
-    const box = await button.boundingBox();
-    expect(box?.height).toBeGreaterThanOrEqual(40); // lg buttons are >= 40px
+    // Verifies that at least one planet card is visible
+    const cards = page.locator('[data-testid="planet-card"]');
+    await expect(cards.first()).toBeVisible();
   });
 
   test('should load quickly (performance)', async ({ page }) => {
@@ -79,44 +79,33 @@ test.describe('Home Page', () => {
     const h1 = page.getByRole('heading', { level: 1 });
     await expect(h1).toBeVisible();
 
-    // Verifies that link is focusable
-    const link = page.getByRole('link', { name: /Explore Planets/i });
-    await link.focus();
-    await expect(link).toBeFocused();
+    // Verifies that search input is focusable
+    const searchInput = page.getByTestId('planet-search-input');
+    await searchInput.focus();
+    await expect(searchInput).toBeFocused();
   });
 
-  test('should display planet card when data loads', async ({ page }) => {
-    // Waits for card to appear (optimistic UI)
-    await page.waitForTimeout(2000);
-
-    // Verifies if there's a planet card
-    const card = page.locator('div[class*="card"]').first();
-    const isVisible = await card.isVisible();
-
-    if (isVisible) {
-      // If there's a card, verifies basic content
-      await expect(card).toBeVisible();
-    }
-  });
-
-  test('should show sync badge when applicable', async ({ page }) => {
-    // Badge may appear if there's synchronization
-    const syncBadge = page.getByText(/synced|live/i);
-    // Only verifies if it exists, doesn't fail if it doesn't
-    const count = await syncBadge.count();
+  test('should show sync indicator when syncing', async ({ page }) => {
+    // Sync indicator may appear during synchronization
+    const syncIndicator = page.getByTestId('planets-sync-indicator');
+    const count = await syncIndicator.count();
     if (count > 0) {
-      await expect(syncBadge.first()).toBeVisible();
+      await expect(syncIndicator).toBeVisible();
     }
   });
 
-  test('should display technologies section', async ({ page }) => {
-    await expect(
-      page.getByText(/Built with modern technologies/i)
-    ).toBeVisible();
+  test('should allow navigation to planet details', async ({ page }) => {
+    // Waits for planet card to appear
+    await page.waitForSelector('[data-testid="planet-card"]', {
+      timeout: 10000,
+    });
 
-    // Verifies some technologies
-    await expect(page.getByText(/Next\.js/i)).toBeVisible();
-    await expect(page.getByText(/TypeScript/i)).toBeVisible();
-    await expect(page.getByText(/React Query/i)).toBeVisible();
+    // Clicks on first planet card
+    const firstCard = page.locator('[data-testid="planet-card"]').first();
+    await firstCard.click();
+
+    // Verifies navigation to detail page
+    await page.waitForURL(/\/\d+/);
+    await expect(page).toHaveURL(/\/\d+/);
   });
 });

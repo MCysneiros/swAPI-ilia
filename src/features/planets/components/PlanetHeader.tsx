@@ -16,7 +16,7 @@ export function PlanetHeader({
     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <h1 className="text-3xl font-bold sm:text-4xl">{name}</h1>
       <div className="flex gap-2">
-        <Link href="/planets">
+        <Link href="/">
           <Button variant="outline" className="w-full sm:w-auto">
             Return
           </Button>

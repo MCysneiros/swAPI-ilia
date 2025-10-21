@@ -25,7 +25,7 @@ export function PlanetListCard({ planet, planetId }: PlanetListCardProps) {
   );
 
   return (
-    <Link href={`/planets/${planetId}`} data-testid="planet-card">
+    <Link href={`/${planetId}`} data-testid="planet-card">
       <Card className="h-full transition-colors hover:bg-accent">
         <CardHeader>
           <CardTitle>{planet.name}</CardTitle>

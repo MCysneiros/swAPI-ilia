@@ -2,7 +2,7 @@ import { test, expect } from './fixtures';
 
 test.describe('Planets List - Films Display', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -28,7 +28,7 @@ test.describe('Planets List - Films Display', () => {
   });
 
   test('should display skeleton during film loading', async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
 
     const firstCard = page.locator('[data-testid="planet-card"]').first();
 
@@ -42,7 +42,7 @@ test.describe('Planets List - Films Display', () => {
   test('should display "No films" for planets without films', async ({
     page,
   }) => {
-    await page.waitForSelector('a[href^="/planets/"]', { timeout: 10000 });
+    await page.waitForSelector('a[href^="/"]', { timeout: 10000 });
     await page.waitForTimeout(2000); // Wait for films to load
 
     const noFilmsText = page.getByText('No films');
@@ -149,7 +149,7 @@ test.describe('Planets List - Films Display', () => {
 
   test('films should be responsive in mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/planets');
+    await page.goto('/');
 
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
@@ -214,7 +214,7 @@ test.describe('Planets List - Films Display', () => {
 
 test.describe('Planets List - General Requirements', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
   });
 
   test('list should be sorted alphabetically by name', async ({ page }) => {
@@ -284,7 +284,7 @@ test.describe('Planets List - General Requirements', () => {
 
   test('should be responsive and mobile-first', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/planets');
+    await page.goto('/');
 
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
@@ -349,7 +349,7 @@ test.describe('Planets List - General Requirements', () => {
     const firstCard = page.locator('[data-testid="planet-card"]').first();
 
     const href = await firstCard.getAttribute('href');
-    expect(href).toMatch(/^\/planets\/\d+$/);
+    expect(href).toMatch(/^\/\d+$/);
   });
 
   test('should not use third-party SWAPI packages', async ({ page }) => {

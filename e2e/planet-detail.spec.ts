@@ -3,12 +3,12 @@ import { test, expect } from './fixtures';
 test.describe('Planet Detail Page', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to list and click on the first planet
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
     await page.locator('[data-testid="planet-card"]').first().click();
-    await page.waitForURL(/\/planets\/\d+/);
+    await page.waitForURL(/\/\d+/);
   });
 
   test('should display planet name', async ({ page }) => {
@@ -52,8 +52,8 @@ test.describe('Planet Detail Page', () => {
 
   test('should navigate back to list when clicking back', async ({ page }) => {
     await page.getByRole('button', { name: /back to planets/i }).click();
-    await page.waitForURL('/planets');
-    await expect(page).toHaveURL('/planets');
+    await page.waitForURL('/');
+    await expect(page).toHaveURL('/');
   });
 
   test('should display residents section when available', async ({ page }) => {
@@ -178,7 +178,7 @@ test.describe('Planet Detail Page', () => {
   });
 
   test('should load data in less than 5 seconds', async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]');
 
     const startTime = Date.now();
@@ -226,7 +226,7 @@ test.describe('Planet Detail Page', () => {
     expect(planetName).toBeTruthy();
 
     // Force refetch by navigating to another page and coming back
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForTimeout(500);
 
     // Go back to the same planet

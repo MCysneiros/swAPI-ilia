@@ -2,7 +2,7 @@ import { test, expect } from './fixtures';
 
 test.describe('SWAPI Challenge - Planets Requirements', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForLoadState('networkidle');
   });
 
@@ -69,7 +69,7 @@ test.describe('SWAPI Challenge - Planets Requirements', () => {
 
   test('Requirement: responsive mobile-first', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('text=Population:', { timeout: 10000 });
 
     await expect(page.getByText('Planets').first()).toBeVisible();
@@ -93,10 +93,10 @@ test.describe('SWAPI Challenge - Planets Requirements', () => {
   test('Extra: should have functional routes', async ({ page }) => {
     await page.waitForSelector('text=Population:', { timeout: 10000 });
 
-    expect(page.url()).toContain('/planets');
+    expect(page.url()).toContain('localhost:3000');
 
     await page.locator('text=Population:').first().click();
 
-    await page.waitForURL(/\/planets\/\d+/, { timeout: 5000 });
+    await page.waitForURL(/\/\d+/, { timeout: 5000 });
   });
 });

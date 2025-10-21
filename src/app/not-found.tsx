@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, ArrowLeft, Search, Rocket } from 'lucide-react';
+import { Home, ArrowLeft, Rocket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/animations';
 import { motion } from 'framer-motion';
@@ -50,12 +50,6 @@ export default function NotFound() {
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
               Back to Home
-            </Link>
-          </Button>
-          <Button size="lg" variant="outline" asChild>
-            <Link href="/planets">
-              <Search className="mr-2 h-4 w-4" />
-              Explore Planets
             </Link>
           </Button>
         </div>

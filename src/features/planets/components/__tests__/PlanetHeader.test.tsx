@@ -41,6 +41,6 @@ describe('PlanetHeader', () => {
     );
 
     const backButton = screen.getByRole('link', { name: /return/i });
-    expect(backButton).toHaveAttribute('href', '/planets');
+    expect(backButton).toHaveAttribute('href', '/');
   });
 });

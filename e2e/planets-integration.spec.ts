@@ -4,7 +4,7 @@ test.describe('Planets - Integration Flow', () => {
   test('should navigate to planets list and show planet cards', async ({
     page,
   }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]');
 
     const planetCards = page.locator('[data-testid="planet-card"]');
@@ -14,7 +14,7 @@ test.describe('Planets - Integration Flow', () => {
   test('should maintain search query when navigating back from detail', async ({
     page,
   }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -27,11 +27,11 @@ test.describe('Planets - Integration Flow', () => {
     await card.waitFor({ state: 'visible', timeout: 5000 });
     await card.click();
 
-    await page.waitForURL(/\/planets\/\d+/, { timeout: 10000 });
+    await page.waitForURL(/\/\d+/, { timeout: 10000 });
 
     await page.goBack();
     // The URL should maintain the search query parameter
-    await page.waitForURL(/\/planets\?search=/, { timeout: 10000 });
+    await page.waitForURL(/\/\?search=/, { timeout: 10000 });
 
     const currentSearch = await searchInput.inputValue();
 
@@ -42,28 +42,28 @@ test.describe('Planets - Integration Flow', () => {
   test('should handle browser back/forward navigation correctly', async ({
     page,
   }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
 
     await page.locator('[data-testid="planet-card"]').first().click();
-    await page.waitForURL(/\/planets\/\d+/, { timeout: 10000 });
+    await page.waitForURL(/\/\d+/, { timeout: 10000 });
     await page.waitForSelector('h1', { timeout: 5000 });
 
     await page.goBack();
-    await page.waitForURL('/planets', { timeout: 10000 });
-    await expect(page).toHaveURL('/planets');
+    await page.waitForURL('/', { timeout: 10000 });
+    await expect(page).toHaveURL('/');
 
     await page.goForward();
-    await page.waitForURL(/\/planets\/\d+/, { timeout: 10000 });
-    await expect(page).toHaveURL(/\/planets\/\d+/);
+    await page.waitForURL(/\/\d+/, { timeout: 10000 });
+    await expect(page).toHaveURL(/\/\d+/);
   });
 
   test('should maintain scroll position when navigating back', async ({
     page,
   }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]');
 
     await page.evaluate(() => window.scrollTo(0, 500));
@@ -87,7 +87,7 @@ test.describe('Planets - Error Handling', () => {
       route.abort();
     });
 
-    await page.goto('/planets');
+    await page.goto('/');
 
     await page.waitForTimeout(2000);
 
@@ -110,7 +110,7 @@ test.describe('Planets - Error Handling', () => {
       route.abort();
     });
 
-    await page.goto('/planets/1');
+    await page.goto('/1');
     await expect(page.getByText(/error|could not|failed/i).first()).toBeVisible(
       {
         timeout: 5000,
@@ -124,7 +124,7 @@ test.describe('Planets - Error Handling', () => {
       route.continue();
     });
 
-    await page.goto('/planets');
+    await page.goto('/');
 
     await page.waitForTimeout(1000);
 
@@ -137,7 +137,7 @@ test.describe('Planets - Error Handling', () => {
   });
 
   test('should show error for invalid planet ID', async ({ page }) => {
-    await page.goto('/planets/invalid-id');
+    await page.goto('/invalid-id');
 
     await page.waitForTimeout(2000);
 
@@ -155,7 +155,7 @@ test.describe('Planets - Loading States', () => {
   test('should show skeleton loader while fetching planets list', async ({
     page,
   }) => {
-    await page.goto('/planets');
+    await page.goto('/');
 
     // Should briefly show skeleton (or data loads very fast)
     const hasSkeleton = await page
@@ -170,7 +170,7 @@ test.describe('Planets - Loading States', () => {
   test('should show skeleton loader while fetching planet details', async ({
     page,
   }) => {
-    await page.goto('/planets/1');
+    await page.goto('/1');
 
     // Check for any loading state
     const hasLoading = await page
@@ -182,7 +182,7 @@ test.describe('Planets - Loading States', () => {
   });
 
   test('should show loading state on search', async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]');
 
     const searchInput = page.getByPlaceholder(/search/i);
@@ -202,7 +202,7 @@ test.describe('Planets - Loading States', () => {
 
 test.describe('Planets - Data Integrity', () => {
   test('should maintain data consistency after refresh', async ({ page }) => {
-    await page.goto('/planets/1');
+    await page.goto('/1');
     await page.waitForSelector('h1');
 
     const name1 = await page.locator('h1').textContent();
@@ -216,7 +216,7 @@ test.describe('Planets - Data Integrity', () => {
   });
 
   test('should handle special characters in planet names', async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
 
     const searchInput = page.getByPlaceholder(/search/i);
     await searchInput.fill("D'Qar");
@@ -227,24 +227,27 @@ test.describe('Planets - Data Integrity', () => {
   });
 
   test('should properly escape HTML in user input', async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
 
     const searchInput = page.getByPlaceholder(/search/i);
     await searchInput.fill('<script>alert("xss")</script>');
     await page.waitForTimeout(500);
 
-    const hasAlert = await page
-      .locator('text=xss')
-      .isVisible({ timeout: 1000 })
-      .catch(() => false);
+    // Check that no script tag is rendered in the DOM
+    const scriptTags = await page.locator('script:has-text("xss")').count();
+    expect(scriptTags).toBe(0);
 
-    expect(hasAlert).toBeFalsy();
+    // The text should be safely rendered, not executed
+    const pageContent = await page.content();
+    // If the content contains the escaped version or no xss at all, it's safe
+    const hasRawScript = pageContent.includes('<script>alert("xss")</script>') && !pageContent.includes('&lt;script&gt;');
+    expect(hasRawScript).toBeFalsy();
   });
 });
 
 test.describe('Planets - SEO and Meta Tags', () => {
   test('should have proper page title on list page', async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
 
     const title = await page.title();
     expect(title).toBeTruthy();
@@ -252,7 +255,7 @@ test.describe('Planets - SEO and Meta Tags', () => {
   });
 
   test('should have proper page title on detail page', async ({ page }) => {
-    await page.goto('/planets/1');
+    await page.goto('/1');
     await page.waitForSelector('h1');
 
     const title = await page.title();
@@ -260,7 +263,7 @@ test.describe('Planets - SEO and Meta Tags', () => {
   });
 
   test('should update page title based on planet name', async ({ page }) => {
-    await page.goto('/planets/1');
+    await page.goto('/1');
     await page.waitForSelector('h1');
 
     const title = await page.title();
@@ -270,7 +273,7 @@ test.describe('Planets - SEO and Meta Tags', () => {
   });
 
   test('should have meta description tag', async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
 
     const metaDescription = await page
       .locator('meta[name="description"]')
@@ -291,7 +294,7 @@ test.describe('Planets - Browser Compatibility', () => {
     });
 
     const noJsPage = await context.newPage();
-    await noJsPage.goto('/planets');
+    await noJsPage.goto('/');
 
     const content = await noJsPage.content();
     expect(content.length).toBeGreaterThan(0);
@@ -300,7 +303,7 @@ test.describe('Planets - Browser Compatibility', () => {
   });
 
   test('should handle cookie preferences', async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
 
     const cookieBanner = page.locator('text=/cookie|cookies/i');
     const hasCookieBanner = await cookieBanner
@@ -321,7 +324,7 @@ test.describe('Planets - Browser Compatibility', () => {
     });
 
     const privatePage = await context.newPage();
-    await privatePage.goto('/planets');
+    await privatePage.goto('/');
 
     await privatePage.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
@@ -336,7 +339,7 @@ test.describe('Planets - Browser Compatibility', () => {
 
 test.describe('Planets - Internationalization (i18n)', () => {
   test('should display content in English', async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]', {
       timeout: 10000,
     });
@@ -349,7 +352,7 @@ test.describe('Planets - Internationalization (i18n)', () => {
   });
 
   test('should format dates in US format', async ({ page }) => {
-    await page.goto('/planets/1');
+    await page.goto('/1');
 
     const datePattern = /\d{1,2}\/\d{1,2}\/\d{4}/;
     const content = await page.content();
@@ -361,7 +364,7 @@ test.describe('Planets - Internationalization (i18n)', () => {
   test('should format large numbers with locale separators', async ({
     page,
   }) => {
-    await page.goto('/planets/1');
+    await page.goto('/1');
 
     const content = await page.content();
 

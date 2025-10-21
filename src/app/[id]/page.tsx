@@ -38,7 +38,7 @@ export default function PlanetDetailPage({ params }: PlanetDetailPageProps) {
     if (typeof window !== 'undefined' && window.history.length > 2) {
       router.back();
     } else {
-      router.push('/planets');
+      router.push('/');
     }
   };
 

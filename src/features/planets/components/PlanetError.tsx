@@ -26,7 +26,7 @@ export function PlanetError() {
         <p className="mb-6 text-muted-foreground">
           Could not load planet details. Please try again.
         </p>
-        <Link href="/planets">
+        <Link href="/">
           <Button variant="outline" className="w-full">
             Back to list
           </Button>

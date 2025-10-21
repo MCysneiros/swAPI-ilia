@@ -2,7 +2,7 @@ import { test, expect } from './fixtures';
 
 test.describe('Planets - List Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
     await page.waitForSelector('[data-testid="planet-card"]');
   });
 
@@ -43,13 +43,13 @@ test.describe('Planets - List Page', () => {
     page,
   }) => {
     await page.getByTestId('planet-card').first().click();
-    await expect(page).toHaveURL(/\/planets\/\d+/);
+    await expect(page).toHaveURL(/\/\d+/);
   });
 });
 
 test.describe('Planets - Detail Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/planets/1');
+    await page.goto('/1');
     await page.waitForSelector('h1');
   });
 
@@ -76,6 +76,6 @@ test.describe('Planets - Detail Page', () => {
     await expect(backButton).toBeVisible();
 
     await backButton.click();
-    await expect(page).toHaveURL('/planets');
+    await expect(page).toHaveURL('/');
   });
 });

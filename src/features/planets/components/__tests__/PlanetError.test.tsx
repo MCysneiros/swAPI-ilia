@@ -21,7 +21,7 @@ describe('PlanetError', () => {
     render(<PlanetError />);
 
     const backButton = screen.getByRole('link', { name: /back to list/i });
-    expect(backButton).toHaveAttribute('href', '/planets');
+    expect(backButton).toHaveAttribute('href', '/');
   });
 
   it('should render error icon', () => {

@@ -2,7 +2,7 @@ import { test, expect } from './fixtures';
 
 test.describe('Planets List - Optimistic UI', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/planets');
+    await page.goto('/');
   });
 
   test('renders planets list after loading', async ({ page }) => {
