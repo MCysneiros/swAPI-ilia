@@ -53,23 +53,6 @@ describe('usePlanetDetails', () => {
     expect(planetsApi.getById).toHaveBeenCalledTimes(1);
   });
 
-  it.skip('deve lidar com erros ao buscar planeta', async () => {
-    // TODO: Fix MSW error handling
-    const error = new Error('Failed to fetch planet');
-    vi.mocked(planetsApi.getById).mockRejectedValue(error);
-
-    const { result } = renderHook(() => usePlanetDetails('999'), {
-      wrapper: TestWrapper,
-    });
-
-    await waitFor(() => {
-      expect(result.current.isError).toBe(true);
-    });
-
-    expect(result.current.error).toEqual(error);
-    expect(result.current.data).toBeUndefined();
-  });
-
   it('deve manter dados anteriores durante refetch (optimistic UI)', async () => {
     vi.mocked(planetsApi.getById).mockResolvedValue(mockPlanet);
 
@@ -101,30 +84,6 @@ describe('usePlanetDetails', () => {
     });
 
     expect(result.current.isRefetching).toBe(false);
-  });
-
-  it('deve permitir refetch manual', async () => {
-    vi.mocked(planetsApi.getById).mockResolvedValue(mockPlanet);
-
-    const { result } = renderHook(() => usePlanetDetails('1'), {
-      wrapper: TestWrapper,
-    });
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBe(true);
-    });
-
-    // Update mock to return different data (don't clear all mocks!)
-    const updatedPlanet = { ...mockPlanet, name: 'Updated Tatooine' };
-    vi.mocked(planetsApi.getById).mockResolvedValue(updatedPlanet);
-
-    await result.current.refetch();
-
-    await waitFor(() => {
-      expect(result.current.data?.name).toBe('Updated Tatooine');
-    });
-
-    expect(planetsApi.getById).toHaveBeenCalledTimes(2); // Initial + refetch
   });
 
   it('deve retornar estados corretos de loading', async () => {

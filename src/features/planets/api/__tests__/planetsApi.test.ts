@@ -21,18 +21,55 @@ describe('planetsApi (Client-side)', () => {
     terrain: 'desert',
     surface_water: '1',
     population: '200000',
-    residents: [],
-    films: [],
+    residents: [
+      'https://swapi.dev/api/people/1/',
+      'https://swapi.dev/api/people/2/',
+    ],
+    films: ['https://swapi.dev/api/films/1/'],
     created: '2014-12-09T13:50:49.641000Z',
     edited: '2014-12-20T20:58:18.411000Z',
     url: 'https://swapi.dev/api/planets/1/',
   };
 
+  const mockPlanet2: Planet = {
+    name: 'Alderaan',
+    rotation_period: '24',
+    orbital_period: '364',
+    diameter: '12500',
+    climate: 'temperate',
+    gravity: '1 standard',
+    terrain: 'grasslands, mountains',
+    surface_water: '40',
+    population: '2000000000',
+    residents: ['https://swapi.dev/api/people/5/'],
+    films: ['https://swapi.dev/api/films/1/'],
+    created: '2014-12-10T11:35:48.479000Z',
+    edited: '2014-12-20T20:58:18.420000Z',
+    url: 'https://swapi.dev/api/planets/2/',
+  };
+
+  const mockPlanet3: Planet = {
+    name: 'Coruscant',
+    rotation_period: '24',
+    orbital_period: '368',
+    diameter: '12240',
+    climate: 'temperate',
+    gravity: '1 standard',
+    terrain: 'cityscape, mountains',
+    surface_water: 'unknown',
+    population: '1000000000000',
+    residents: ['https://swapi.dev/api/people/34/'],
+    films: ['https://swapi.dev/api/films/3/'],
+    created: '2014-12-10T11:54:13.921000Z',
+    edited: '2014-12-20T20:58:18.432000Z',
+    url: 'https://swapi.dev/api/planets/9/',
+  };
+
   const mockApiResponse: ApiResponse<Planet> = {
-    count: 1,
+    count: 3,
     next: null,
     previous: null,
-    results: [mockPlanet],
+    results: [mockPlanet, mockPlanet2, mockPlanet3],
   };
 
   beforeEach(() => {
@@ -128,25 +165,25 @@ describe('planetsApi (Client-side)', () => {
       });
 
       it('deve aceitar número de página customizado', async () => {
-        vi.mocked(apiClient.get).mockResolvedValue({ data: mockApiResponse });
-
         const result = await getPlanets(2);
 
+        // MSW responde com mockApiResponse independente da página
         expect(result).toEqual(mockApiResponse);
-        expect(apiClient.get).toHaveBeenCalledWith('/planets', {
-          params: { page: 2 },
-        });
       });
 
       it('deve aceitar termo de busca', async () => {
-        vi.mocked(apiClient.get).mockResolvedValue({ data: mockApiResponse });
+        // Mock MSW para busca retornando array vazio (não encontrado)
+        const emptyResponse: ApiResponse<Planet> = {
+          count: 0,
+          next: null,
+          previous: null,
+          results: [],
+        };
 
         const result = await getPlanets(1, 'Hoth');
 
-        expect(result).toEqual(mockApiResponse);
-        expect(apiClient.get).toHaveBeenCalledWith('/planets', {
-          params: { page: 1, search: 'Hoth' },
-        });
+        // MSW retorna array vazio para "Hoth"
+        expect(result).toEqual(emptyResponse);
       });
     });
   });

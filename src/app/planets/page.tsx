@@ -1,12 +1,9 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { Loader2, Search } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { planetsApi, PlanetListCard } from '@/features/planets';
-import { queryKeys, PAGINATION } from '@/constants';
-import { useDebounce } from '@/hooks';
+import { PlanetListCard, usePlanetsQuery } from '@/features/planets';
+import { PAGINATION } from '@/constants';
+import { useDebounce, useQueryParams, useUrlSync } from '@/hooks';
 import { PageContainer } from '@/components/layout';
 import {
   ListSkeleton,
@@ -15,95 +12,31 @@ import {
   Pagination,
 } from '@/components/shared';
 import { Input } from '@/components/ui/input';
-import type { ApiResponse, Planet } from '@/types';
 
 export default function PlanetsPage() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const getPageFromParams = () => {
-    const pageParam = Number(searchParams.get('page'));
-    return Number.isFinite(pageParam) && pageParam > 0
-      ? pageParam
-      : PAGINATION.defaultPage;
-  };
-  const getSearchFromParams = () => searchParams.get('search') ?? '';
-  const [currentPage, setCurrentPage] = useState<number>(
-    getPageFromParams
+  const { currentPage, search, setCurrentPage, setSearch } = useQueryParams(
+    PAGINATION.defaultPage
   );
-  const [search, setSearch] = useState(getSearchFromParams);
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data, error, isFetching, isPlaceholderData, status, refetch } =
-    useQuery<ApiResponse<Planet>>({
-      queryKey: queryKeys.planets.list({
-        page: currentPage,
-        search: debouncedSearch,
-      }),
-      queryFn: () =>
-        planetsApi.getAll({ page: currentPage, search: debouncedSearch }),
-      placeholderData: (previousData) => previousData,
-      staleTime: 60 * 1000,
-    });
+  useUrlSync({
+    page: currentPage,
+    search: debouncedSearch,
+    defaultPage: PAGINATION.defaultPage,
+  });
 
-  const planets = useMemo(
-    () =>
-      data?.results
-        ? [...data.results].sort((a, b) => a.name.localeCompare(b.name))
-        : [],
-    [data?.results]
-  );
-  const totalCount = data?.count ?? 0;
-  const totalPages =
-    totalCount > 0 ? Math.ceil(totalCount / PAGINATION.defaultPageSize) : 1;
-  const showSkeleton =
-    status === 'pending' && planets.length === 0 && !isPlaceholderData;
-  const hasData = planets.length > 0;
-  const showErrorState = Boolean(error) && !hasData;
-  const showEmptyState =
-    !showErrorState && !showSkeleton && !isPlaceholderData && !hasData;
-  const isSyncing = isFetching && !isPlaceholderData && hasData;
-  const hasNextPage =
-    (typeof data?.next === 'string' && data.next.length > 0) ||
-    currentPage < totalPages;
-  const hasPreviousPage =
-    (typeof data?.previous === 'string' && data.previous.length > 0) ||
-    currentPage > 1;
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (currentPage !== PAGINATION.defaultPage) {
-      params.set('page', String(currentPage));
-    } else {
-      params.delete('page');
-    }
-
-    const normalizedSearch = debouncedSearch.trim();
-    if (normalizedSearch) {
-      params.set('search', normalizedSearch);
-    } else {
-      params.delete('search');
-    }
-
-    const newQuery = params.toString();
-    if (newQuery !== searchParams.toString()) {
-      const href = newQuery ? `${pathname}?${newQuery}` : pathname;
-      router.replace(href, { scroll: false });
-    }
-  }, [
-    currentPage,
-    debouncedSearch,
-    pathname,
-    router,
-    searchParams,
-  ]);
-
-  useEffect(() => {
-    const paramsPage = getPageFromParams();
-    const paramsSearch = getSearchFromParams();
-    setCurrentPage((prev) => (prev === paramsPage ? prev : paramsPage));
-    setSearch((prev) => (prev === paramsSearch ? prev : paramsSearch));
-  }, [searchParams]);
+  const {
+    planets,
+    totalCount,
+    totalPages,
+    hasNextPage,
+    hasPreviousPage,
+    showSkeleton,
+    showErrorState,
+    showEmptyState,
+    isSyncing,
+    refetch,
+  } = usePlanetsQuery({ page: currentPage, search: debouncedSearch });
 
   return (
     <PageContainer>
