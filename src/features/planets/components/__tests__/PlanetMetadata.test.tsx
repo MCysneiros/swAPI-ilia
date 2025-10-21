@@ -4,7 +4,7 @@ import { PlanetMetadata } from '../PlanetMetadata';
 
 // Mock formatDate function
 vi.mock('@/lib/utils', () => ({
-  formatDate: (date: string) => new Date(date).toLocaleDateString('pt-BR'),
+  formatDate: (date: string) => new Date(date).toLocaleDateString('en-US'),
 }));
 
 describe('PlanetMetadata', () => {
@@ -16,7 +16,7 @@ describe('PlanetMetadata', () => {
       />
     );
 
-    expect(screen.getByText(/Criado em:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Created:/i)).toBeInTheDocument();
   });
 
   it('should render edited date', () => {
@@ -27,6 +27,6 @@ describe('PlanetMetadata', () => {
       />
     );
 
-    expect(screen.getByText(/Atualizado em:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Updated:/i)).toBeInTheDocument();
   });
 });

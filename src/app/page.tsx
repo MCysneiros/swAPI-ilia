@@ -19,9 +19,9 @@ import { planetsApi } from '@/features/planets';
 import type { ApiResponse, Planet } from '@/types';
 
 const formatPopulation = (population: string) => {
-  if (population === 'unknown') return 'Desconhecida';
+  if (population === 'unknown') return 'Unknown';
   const value = Number(population);
-  return Number.isNaN(value) ? population : value.toLocaleString('pt-BR');
+  return Number.isNaN(value) ? population : value.toLocaleString('en-US');
 };
 
 export default function Home() {
@@ -57,24 +57,25 @@ export default function Home() {
                   className="mb-4 inline-flex items-center gap-2"
                 >
                   <Rocket className="h-3.5 w-3.5" />
-                  Powered by SWAPI em tempo real
+                  Powered by SWAPI in real-time
                 </Badge>
               </FadeIn>
 
               <FadeIn delay={0.2}>
                 <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-                  Explore mundos vivos da galáxia{' '}
+                  Explore living worlds from the{' '}
                   <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                     Star Wars
-                  </span>
+                  </span>{' '}
+                  galaxy
                 </h1>
               </FadeIn>
 
               <FadeIn delay={0.3}>
                 <p className="mx-auto mb-8 max-w-2xl text-base text-muted-foreground sm:text-lg md:text-xl">
-                  Cada planeta chega instantaneamente com dados autênticos:
-                  clima, população, residentes e aparições em filmes. Sem
-                  esperas — apenas exploração fluida.
+                  Each planet arrives instantly with authentic data: climate,
+                  population, residents and film appearances. No waiting — just
+                  fluid exploration.
                 </p>
               </FadeIn>
 
@@ -82,7 +83,7 @@ export default function Home() {
                 <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                   <Button size="lg" asChild className="w-full sm:w-auto">
                     <Link href="/planets">
-                      Explorar Planetas
+                      Explore Planets
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
@@ -93,7 +94,7 @@ export default function Home() {
                     className="w-full sm:w-auto"
                   >
                     <Link href="https://swapi.dev" target="_blank">
-                      Sobre SWAPI
+                      About SWAPI
                     </Link>
                   </Button>
                 </div>
@@ -121,10 +122,10 @@ export default function Home() {
                         {isSyncing ? (
                           <>
                             <Loader2 className="h-3 w-3 animate-spin" />
-                            ao vivo
+                            live
                           </>
                         ) : (
-                          'sincronizado'
+                          'synced'
                         )}
                       </Badge>
                     </div>
@@ -132,19 +133,19 @@ export default function Home() {
                   <CardContent className="space-y-4">
                     <div className="grid grid-cols-2 gap-3 text-sm">
                       <div>
-                        <p className="text-muted-foreground">População</p>
+                        <p className="text-muted-foreground">Population</p>
                         <p className="font-semibold text-foreground">
                           {formatPopulation(heroPlanet.population)}
                         </p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Diâmetro</p>
+                        <p className="text-muted-foreground">Diameter</p>
                         <p className="font-semibold text-foreground">
                           {heroPlanet.diameter} km
                         </p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Rotação</p>
+                        <p className="text-muted-foreground">Rotation</p>
                         <p className="font-semibold text-foreground">
                           {heroPlanet.rotation_period} h
                         </p>
@@ -152,27 +153,27 @@ export default function Home() {
                       <div>
                         <p className="text-muted-foreground">Orbital</p>
                         <p className="font-semibold text-foreground">
-                          {heroPlanet.orbital_period} dias
+                          {heroPlanet.orbital_period} days
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center justify-between rounded-lg border border-primary/20 px-3 py-2 text-sm">
                       <div>
                         <p className="font-medium text-foreground">
-                          Aparece em filmes
+                          Appears in films
                         </p>
                         <p className="text-muted-foreground">
                           {heroPlanet.films.length}{' '}
                           {heroPlanet.films.length === 1
-                            ? 'produção'
-                            : 'produções'}
+                            ? 'production'
+                            : 'productions'}
                         </p>
                       </div>
                       <Button size="sm" variant="secondary" asChild>
                         <Link
                           href={`/planets/${heroPlanet.url.split('/').filter(Boolean).pop() ?? ''}`}
                         >
-                          Ver detalhes
+                          View details
                           <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                         </Link>
                       </Button>
@@ -192,20 +193,18 @@ export default function Home() {
               <div className="mb-10 flex flex-col gap-4 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
                 <div>
                   <h2 className="text-2xl font-bold sm:text-3xl">
-                    Descobertas em destaque
+                    Featured discoveries
                   </h2>
                   <p className="text-muted-foreground">
-                    Um recorte instantâneo dos mundos mais visitados —
-                    atualizados assim que você chega.
+                    A snapshot of the most visited worlds — updated as soon as
+                    you arrive.
                   </p>
                 </div>
                 <Badge
                   variant="outline"
                   className="justify-center sm:justify-start"
                 >
-                  {isSyncing
-                    ? 'Sincronizando dados em tempo real'
-                    : 'Dados atualizados'}
+                  {isSyncing ? 'Syncing data in real-time' : 'Data updated'}
                 </Badge>
               </div>
             </FadeIn>
@@ -242,25 +241,25 @@ export default function Home() {
                         </CardHeader>
                         <CardContent className="space-y-3 text-sm">
                           <div className="flex items-center justify-between text-muted-foreground">
-                            <span>Rotação</span>
+                            <span>Rotation</span>
                             <span className="font-medium text-foreground">
                               {planet.rotation_period} h
                             </span>
                           </div>
                           <div className="flex items-center justify-between text-muted-foreground">
-                            <span>Órbita</span>
+                            <span>Orbit</span>
                             <span className="font-medium text-foreground">
-                              {planet.orbital_period} dias
+                              {planet.orbital_period} days
                             </span>
                           </div>
                           <div className="flex items-center justify-between text-muted-foreground">
-                            <span>Residentes</span>
+                            <span>Residents</span>
                             <span className="font-medium text-foreground">
                               {planet.residents.length}
                             </span>
                           </div>
                           <div className="flex items-center justify-between text-muted-foreground">
-                            <span>Filmes</span>
+                            <span>Films</span>
                             <span className="font-medium text-foreground">
                               {planet.films.length}
                             </span>
@@ -279,7 +278,7 @@ export default function Home() {
       <section className="border-t px-4 py-12">
         <div className="mx-auto max-w-6xl text-center">
           <h2 className="mb-6 text-xl font-semibold sm:text-2xl">
-            Construído com tecnologias modernas
+            Built with modern technologies
           </h2>
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
             {[

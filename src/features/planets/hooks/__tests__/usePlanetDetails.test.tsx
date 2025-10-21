@@ -33,7 +33,7 @@ describe('usePlanetDetails', () => {
     vi.clearAllMocks();
   });
 
-  it('deve retornar dados do planeta com sucesso', async () => {
+  it('should return planet data successfully', async () => {
     vi.mocked(planetsApi.getById).mockResolvedValue(mockPlanet);
 
     const { result } = renderHook(() => usePlanetDetails('1'), {
@@ -53,7 +53,7 @@ describe('usePlanetDetails', () => {
     expect(planetsApi.getById).toHaveBeenCalledTimes(1);
   });
 
-  it('deve manter dados anteriores durante refetch (optimistic UI)', async () => {
+  it('should keep previous data during refetch (optimistic UI)', async () => {
     vi.mocked(planetsApi.getById).mockResolvedValue(mockPlanet);
 
     const { result, rerender } = renderHook(() => usePlanetDetails('1'), {
@@ -72,7 +72,7 @@ describe('usePlanetDetails', () => {
     expect(result.current.data).toBeDefined();
   });
 
-  it('deve ter configurações corretas de cache', async () => {
+  it('should have correct cache settings', async () => {
     vi.mocked(planetsApi.getById).mockResolvedValue(mockPlanet);
 
     const { result } = renderHook(() => usePlanetDetails('1'), {
@@ -86,7 +86,7 @@ describe('usePlanetDetails', () => {
     expect(result.current.isRefetching).toBe(false);
   });
 
-  it('deve retornar estados corretos de loading', async () => {
+  it('should return correct loading states', async () => {
     vi.mocked(planetsApi.getById).mockResolvedValue(mockPlanet);
 
     const { result } = renderHook(() => usePlanetDetails('1'), {

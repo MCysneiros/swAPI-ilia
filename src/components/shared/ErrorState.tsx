@@ -9,8 +9,8 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({
-  title = 'Erro ao carregar dados',
-  message = 'Ocorreu um erro ao carregar os dados. Tente novamente.',
+  title = 'Error loading data',
+  message = 'An error occurred while loading the data. Please try again.',
   onRetry,
 }: ErrorStateProps) {
   return (
@@ -23,7 +23,7 @@ export function ErrorState({
         </p>
         {onRetry && (
           <Button onClick={onRetry} variant="outline">
-            Tentar Novamente
+            Try Again
           </Button>
         )}
       </CardContent>

@@ -16,11 +16,11 @@ export function PlanetResidents({ residents }: PlanetResidentsProps) {
     return (
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle>Nativos</CardTitle>
+          <CardTitle>Residents</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            Este planeta não possui nativos conhecidos.
+            This planet has no known residents.
           </p>
         </CardContent>
       </Card>
@@ -31,7 +31,7 @@ export function PlanetResidents({ residents }: PlanetResidentsProps) {
     return (
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle>Nativos</CardTitle>
+          <CardTitle>Residents</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -47,7 +47,7 @@ export function PlanetResidents({ residents }: PlanetResidentsProps) {
   return (
     <Card className="lg:col-span-2">
       <CardHeader>
-        <CardTitle>Nativos ({residentsData.length})</CardTitle>
+        <CardTitle>Residents ({residentsData.length})</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

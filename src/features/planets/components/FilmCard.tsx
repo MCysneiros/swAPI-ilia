@@ -27,11 +27,11 @@ export function FilmCard({ film }: FilmCardProps) {
           className="truncate text-sm text-muted-foreground"
           title={film.director}
         >
-          <span className="font-medium">Diretor:</span> {film.director}
+          <span className="font-medium">Director:</span> {film.director}
         </p>
         <p className="text-sm text-muted-foreground">
-          <span className="font-medium">Lançamento:</span>{' '}
-          {new Date(film.release_date).toLocaleDateString('pt-BR')}
+          <span className="font-medium">Release:</span>{' '}
+          {new Date(film.release_date).toLocaleDateString('en-US')}
         </p>
       </div>
     </div>

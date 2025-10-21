@@ -29,23 +29,21 @@ describe('usePrefetchPlanet', () => {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 
-  it('deve retornar função prefetchPlanet', () => {
+  it('should return prefetchPlanet function', () => {
     const { result } = renderHook(() => usePrefetchPlanet(), { wrapper });
 
     expect(result.current.prefetchPlanet).toBeInstanceOf(Function);
   });
 
-  it('não deve falhar se prefetch tiver erro', async () => {
+  it('should not fail if prefetch has an error', async () => {
     vi.mocked(planetsServerApi.getById).mockRejectedValue(
       new Error('Network error')
     );
 
     const { result } = renderHook(() => usePrefetchPlanet(), { wrapper });
 
-    // prefetchPlanet should handle errors internally and not throw
     expect(() => result.current.prefetchPlanet('999')).not.toThrow();
 
-    // Wait a bit to ensure the prefetch promise is handled
     await new Promise((resolve) => setTimeout(resolve, 100));
   });
 });

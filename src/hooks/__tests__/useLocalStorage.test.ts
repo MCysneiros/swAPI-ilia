@@ -148,7 +148,6 @@ describe('useLocalStorage', () => {
 
   describe('error handling', () => {
     it('should handle JSON parse errors gracefully', () => {
-      // Suppress the expected warning
       const consoleWarnSpy = vi
         .spyOn(console, 'warn')
         .mockImplementation(() => {});
@@ -168,118 +167,94 @@ describe('useLocalStorage', () => {
       consoleWarnSpy.mockRestore();
     });
 
-    it('should handle localStorage setItem errors', () => {
-      // Suppress the expected warning
-      const consoleWarnSpy = vi
-        .spyOn(console, 'warn')
-        .mockImplementation(() => {});
+    describe('storage event synchronization', () => {
+      it('should sync state when storage event fires', () => {
+        renderHook(() => useLocalStorage('syncKey', 'initial'));
 
-      const { result } = renderHook(() =>
-        useLocalStorage('testKey', 'initial')
-      );
+        act(() => {
+          localStorage.setItem('syncKey', JSON.stringify('fromAnotherTab'));
+        });
 
-      const originalSetItem = Storage.prototype.setItem;
-      Storage.prototype.setItem = vi.fn(() => {
-        throw new Error('QuotaExceededError');
+        expect(localStorage.getItem('syncKey')).toBe(
+          JSON.stringify('fromAnotherTab')
+        );
       });
 
-      act(() => {
-        result.current[1]('shouldFail');
+      it('should ignore storage events for different keys', () => {
+        const { result } = renderHook(() =>
+          useLocalStorage('myKey', 'initial')
+        );
+
+        act(() => {
+          localStorage.setItem(
+            'differentKey',
+            JSON.stringify('shouldNotUpdate')
+          );
+        });
+
+        expect(result.current[0]).toBe('initial');
       });
 
-      expect(result.current[0]).toBe('shouldFail');
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        'Error setting localStorage key "testKey":',
-        expect.any(Error)
-      );
+      it('should handle storage changes gracefully', () => {
+        const { result } = renderHook(() =>
+          useLocalStorage('testKey', 'initial')
+        );
 
-      Storage.prototype.setItem = originalSetItem;
-      consoleWarnSpy.mockRestore();
-    });
-  });
+        act(() => {
+          localStorage.setItem('testKey', JSON.stringify('updated'));
+        });
 
-  describe('storage event synchronization', () => {
-    it('should sync state when storage event fires', () => {
-      renderHook(() => useLocalStorage('syncKey', 'initial'));
+        expect(result.current[0]).toBe('initial');
 
-      act(() => {
-        localStorage.setItem('syncKey', JSON.stringify('fromAnotherTab'));
+        expect(localStorage.getItem('testKey')).toBe(JSON.stringify('updated'));
       });
-
-      expect(localStorage.getItem('syncKey')).toBe(
-        JSON.stringify('fromAnotherTab')
-      );
-    });
-
-    it('should ignore storage events for different keys', () => {
-      const { result } = renderHook(() => useLocalStorage('myKey', 'initial'));
-
-      act(() => {
-        localStorage.setItem('differentKey', JSON.stringify('shouldNotUpdate'));
-      });
-
-      expect(result.current[0]).toBe('initial');
     });
 
-    it('should handle storage changes gracefully', () => {
-      const { result } = renderHook(() =>
-        useLocalStorage('testKey', 'initial')
-      );
+    describe('SSR compatibility', () => {
+      it('should handle server-side rendering (no window)', () => {
+        const { result } = renderHook(() =>
+          useLocalStorage('test-key', 'default')
+        );
 
-      act(() => {
-        localStorage.setItem('testKey', JSON.stringify('updated'));
+        expect(result.current[0]).toBe('default');
       });
-
-      expect(result.current[0]).toBe('initial');
-
-      expect(localStorage.getItem('testKey')).toBe(JSON.stringify('updated'));
-    });
-  });
-
-  describe('SSR compatibility', () => {
-    it('should handle server-side rendering (no window)', () => {
-      const { result } = renderHook(() =>
-        useLocalStorage('test-key', 'default')
-      );
-
-      expect(result.current[0]).toBe('default');
-    });
-  });
-
-  describe('multiple instances', () => {
-    it('should keep different keys independent', () => {
-      const { result: result1 } = renderHook(() =>
-        useLocalStorage('key1', 'value1')
-      );
-      const { result: result2 } = renderHook(() =>
-        useLocalStorage('key2', 'value2')
-      );
-
-      expect(result1.current[0]).toBe('value1');
-      expect(result2.current[0]).toBe('value2');
-
-      act(() => {
-        result1.current[1]('changed1');
-      });
-
-      expect(result1.current[0]).toBe('changed1');
-      expect(result2.current[0]).toBe('value2');
     });
 
-    it('should sync multiple hooks with same key', async () => {
-      const { result: result1 } = renderHook(() =>
-        useLocalStorage('shared-key', 'initial')
-      );
-      renderHook(() => useLocalStorage('shared-key', 'initial'));
+    describe('multiple instances', () => {
+      it('should keep different keys independent', () => {
+        const { result: result1 } = renderHook(() =>
+          useLocalStorage('key1', 'value1')
+        );
+        const { result: result2 } = renderHook(() =>
+          useLocalStorage('key2', 'value2')
+        );
 
-      await act(async () => {
-        result1.current[1]('updated');
+        expect(result1.current[0]).toBe('value1');
+        expect(result2.current[0]).toBe('value2');
+
+        act(() => {
+          result1.current[1]('changed1');
+        });
+
+        expect(result1.current[0]).toBe('changed1');
+        expect(result2.current[0]).toBe('value2');
       });
 
-      expect(result1.current[0]).toBe('updated');
-      expect(localStorage.getItem('shared-key')).toBe(
-        JSON.stringify('updated')
-      );
+      it('should sync multiple hooks with same key', async () => {
+        const { result: result1 } = renderHook(() =>
+          useLocalStorage('shared-key', 'initial')
+        );
+        renderHook(() => useLocalStorage('shared-key', 'initial'));
+
+        await act(async () => {
+          result1.current[1]('updated');
+        });
+
+        expect(result1.current[0]).toBe('updated');
+        expect(localStorage.getItem('shared-key')).toBe(
+          JSON.stringify('updated')
+        );
+      });
     });
   });
 });

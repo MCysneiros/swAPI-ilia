@@ -42,19 +42,19 @@ describe('FilmCard', () => {
   it('should format release date in Brazilian Portuguese', () => {
     render(<FilmCard film={mockFilm} />);
 
-    // Date might be formatted as 24/05/1977 or 25/05/1977 depending on timezone
-    expect(screen.getByText(/2[45]\/05\/1977/i)).toBeInTheDocument();
+    // Date might be formatted as 5/24/1977 or 5/25/1977 depending on timezone
+    expect(screen.getByText(/5\/2[45]\/1977/i)).toBeInTheDocument();
   });
 
   it('should render director label', () => {
     render(<FilmCard film={mockFilm} />);
 
-    expect(screen.getByText(/Diretor:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Director:/i)).toBeInTheDocument();
   });
 
   it('should render release date label', () => {
     render(<FilmCard film={mockFilm} />);
 
-    expect(screen.getByText(/Lançamento:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Release:/i)).toBeInTheDocument();
   });
 });

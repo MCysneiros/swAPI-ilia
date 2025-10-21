@@ -7,9 +7,9 @@ describe('EmptyState', () => {
   it('should render with default props', () => {
     render(<EmptyState />);
 
-    expect(screen.getByText('Nenhum resultado encontrado')).toBeInTheDocument();
+    expect(screen.getByText('No results found')).toBeInTheDocument();
     expect(
-      screen.getByText('Não há dados para exibir no momento.')
+      screen.getByText('There is no data to display at this time.')
     ).toBeInTheDocument();
   });
 

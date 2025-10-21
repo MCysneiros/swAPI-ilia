@@ -13,30 +13,30 @@ describe('PlanetBasicInfo', () => {
   it('should render all basic information fields', () => {
     render(<PlanetBasicInfo {...mockProps} />);
 
-    expect(screen.getByText('Informações Básicas')).toBeInTheDocument();
-    expect(screen.getByText('23 horas')).toBeInTheDocument();
-    expect(screen.getByText('304 dias')).toBeInTheDocument();
+    expect(screen.getByText('Basic Information')).toBeInTheDocument();
+    expect(screen.getByText('23 hours')).toBeInTheDocument();
+    expect(screen.getByText('304 days')).toBeInTheDocument();
     expect(screen.getByText('10465 km')).toBeInTheDocument();
   });
 
   it('should format population with locale', () => {
     render(<PlanetBasicInfo {...mockProps} />);
 
-    expect(screen.getByText('200.000')).toBeInTheDocument();
+    expect(screen.getByText('200,000')).toBeInTheDocument();
   });
 
   it('should handle unknown population', () => {
     render(<PlanetBasicInfo {...mockProps} population="unknown" />);
 
-    expect(screen.getByText('Desconhecida')).toBeInTheDocument();
+    expect(screen.getByText('Unknown')).toBeInTheDocument();
   });
 
   it('should display all field labels', () => {
     render(<PlanetBasicInfo {...mockProps} />);
 
-    expect(screen.getByText('Período de Rotação')).toBeInTheDocument();
-    expect(screen.getByText('Período Orbital')).toBeInTheDocument();
-    expect(screen.getByText('Diâmetro')).toBeInTheDocument();
-    expect(screen.getByText('População')).toBeInTheDocument();
+    expect(screen.getByText('Rotation Period')).toBeInTheDocument();
+    expect(screen.getByText('Orbital Period')).toBeInTheDocument();
+    expect(screen.getByText('Diameter')).toBeInTheDocument();
+    expect(screen.getByText('Population')).toBeInTheDocument();
   });
 });

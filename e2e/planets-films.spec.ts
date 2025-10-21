@@ -305,16 +305,16 @@ test.describe('Planets List - General Requirements', () => {
 
     const firstCard = page.locator('[class*="Card"]').first();
 
-    // Verifica que tem href correto
+    // Verify it has correct href
     const href = await firstCard.getAttribute('href');
     expect(href).toMatch(/^\/planets\/\d+$/);
   });
 
-  test('não deve usar pacotes terceiros do SWAPI', async ({ page }) => {
-    // Este teste é mais conceitual - verifica que a implementação é custom
+  test('should not use third-party SWAPI packages', async ({ page }) => {
+    // This test is more conceptual - verifies that the implementation is custom
     await page.waitForSelector('a[href^="/planets/"]', { timeout: 10000 });
 
-    // Se carrega corretamente, significa que está usando implementação própria
+    // If it loads correctly, it means it's using its own implementation
     const cards = page.locator('[class*="Card"]');
     expect(await cards.count()).toBeGreaterThan(0);
   });

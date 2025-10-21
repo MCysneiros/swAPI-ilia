@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatDate(
   date: string | Date,
-  locale: string = 'pt-BR',
+  locale: string = 'en-US',
   options?: Intl.DateTimeFormatOptions
 ): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
@@ -25,7 +25,7 @@ export function formatDate(
 
 export function formatRelativeTime(
   date: string | Date,
-  locale: string = 'pt-BR'
+  locale: string = 'en-US'
 ): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   const now = new Date();
@@ -106,7 +106,7 @@ export function sleep(ms: number): Promise<void> {
 
 export function formatNumber(
   value: number,
-  locale: string = 'pt-BR',
+  locale: string = 'en-US',
   options?: Intl.NumberFormatOptions
 ): string {
   return new Intl.NumberFormat(locale, options).format(value);

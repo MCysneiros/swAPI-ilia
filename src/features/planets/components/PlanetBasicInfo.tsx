@@ -15,25 +15,25 @@ export function PlanetBasicInfo({
   population,
 }: PlanetBasicInfoProps) {
   const formatPopulation = (pop: string) => {
-    if (pop === 'unknown') return 'Desconhecida';
+    if (pop === 'unknown') return 'Unknown';
     const num = parseInt(pop);
-    return isNaN(num) ? pop : num.toLocaleString('pt-BR');
+    return isNaN(num) ? pop : num.toLocaleString('en-US');
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Informações Básicas</CardTitle>
+        <CardTitle>Basic Information</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 sm:grid-cols-2">
           <InfoItem
-            label="Período de Rotação"
-            value={`${rotation_period} horas`}
+            label="Rotation Period"
+            value={`${rotation_period} hours`}
           />
-          <InfoItem label="Período Orbital" value={`${orbital_period} dias`} />
-          <InfoItem label="Diâmetro" value={`${diameter} km`} />
-          <InfoItem label="População" value={formatPopulation(population)} />
+          <InfoItem label="Orbital Period" value={`${orbital_period} days`} />
+          <InfoItem label="Diameter" value={`${diameter} km`} />
+          <InfoItem label="Population" value={formatPopulation(population)} />
         </div>
       </CardContent>
     </Card>

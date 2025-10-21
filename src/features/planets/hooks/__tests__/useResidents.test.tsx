@@ -4,7 +4,7 @@ import { useResidents } from '../useResidents';
 import { TestWrapper } from '@/test/utils';
 
 describe('useResidents', () => {
-  it('deve retornar residentes com detalhes completos', async () => {
+  it('should return residents with complete details', async () => {
     const residentUrls = ['https://swapi.dev/api/people/1/'];
 
     const { result } = renderHook(() => useResidents(residentUrls), {
@@ -24,7 +24,7 @@ describe('useResidents', () => {
       eye_color: 'blue',
       gender: 'male',
     });
-    // Species e vehicles vem do MSW
+    // Species and vehicles come from MSW
     expect(result.current.data?.[0]?.species).toHaveLength(1);
     expect(result.current.data?.[0]?.species[0]).toMatchObject({
       name: 'Human',
@@ -35,7 +35,7 @@ describe('useResidents', () => {
     });
   });
 
-  it('deve retornar array vazio quando não há URLs', async () => {
+  it('should return empty array when there are no URLs', async () => {
     const { result } = renderHook(() => useResidents([]), {
       wrapper: TestWrapper,
     });
@@ -44,7 +44,7 @@ describe('useResidents', () => {
     expect(result.current.data).toBeUndefined();
   });
 
-  it('deve estar disabled quando não há URLs', async () => {
+  it('should be disabled when there are no URLs', async () => {
     const { result } = renderHook(() => useResidents([]), {
       wrapper: TestWrapper,
     });
@@ -52,7 +52,7 @@ describe('useResidents', () => {
     expect(result.current.isLoading).toBe(false);
   });
 
-  it('deve buscar múltiplos residentes em paralelo', async () => {
+  it('should fetch multiple residents in parallel', async () => {
     const residentUrls = [
       'https://swapi.dev/api/people/1/',
       'https://swapi.dev/api/people/2/',
@@ -71,7 +71,7 @@ describe('useResidents', () => {
     expect(result.current.data?.[1]?.name).toBe('C-3PO');
   });
 
-  it('deve ter configurações corretas de cache', async () => {
+  it('should have correct cache settings', async () => {
     const residentUrls = ['https://swapi.dev/api/people/1/'];
 
     const { result } = renderHook(() => useResidents(residentUrls), {
@@ -82,7 +82,7 @@ describe('useResidents', () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    // Não deve refetch automaticamente
+    // Should not refetch automatically
     expect(result.current.isRefetching).toBe(false);
   });
 });

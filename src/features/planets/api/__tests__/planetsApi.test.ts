@@ -164,15 +164,15 @@ describe('planetsApi (Client-side)', () => {
         expect(result).toEqual(mockApiResponse);
       });
 
-      it('deve aceitar número de página customizado', async () => {
+      it('should accept custom page number', async () => {
         const result = await getPlanets(2);
 
-        // MSW responde com mockApiResponse independente da página
+        // MSW responds with mockApiResponse regardless of page
         expect(result).toEqual(mockApiResponse);
       });
 
-      it('deve aceitar termo de busca', async () => {
-        // Mock MSW para busca retornando array vazio (não encontrado)
+      it('should accept search term', async () => {
+        // Mock MSW for search returning empty array (not found)
         const emptyResponse: ApiResponse<Planet> = {
           count: 0,
           next: null,

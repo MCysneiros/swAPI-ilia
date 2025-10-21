@@ -6,11 +6,11 @@ interface ResidentCardProps {
 }
 
 const genderMap: Record<string, string> = {
-  male: 'Masculino',
-  female: 'Feminino',
+  male: 'Male',
+  female: 'Female',
   'n/a': 'N/A',
-  none: 'Nenhum',
-  hermaphrodite: 'Hermafrodita',
+  none: 'None',
+  hermaphrodite: 'Hermaphrodite',
 };
 
 export function ResidentCard({ resident }: ResidentCardProps) {
@@ -25,21 +25,21 @@ export function ResidentCard({ resident }: ResidentCardProps) {
 
       <div className="space-y-2 text-sm">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-muted-foreground">Cabelo:</span>
+          <span className="text-muted-foreground">Hair:</span>
           <Badge variant="outline" className="capitalize">
             {resident.hair_color}
           </Badge>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-muted-foreground">Olhos:</span>
+          <span className="text-muted-foreground">Eyes:</span>
           <Badge variant="outline" className="capitalize">
             {resident.eye_color}
           </Badge>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-muted-foreground">Gênero:</span>
+          <span className="text-muted-foreground">Gender:</span>
           <Badge variant="outline">
             {genderMap[resident.gender.toLowerCase()] || resident.gender}
           </Badge>
@@ -47,7 +47,7 @@ export function ResidentCard({ resident }: ResidentCardProps) {
 
         {resident.species.length > 0 && (
           <div>
-            <p className="mb-1 text-muted-foreground">Espécie(s):</p>
+            <p className="mb-1 text-muted-foreground">Species:</p>
             <div className="flex flex-wrap gap-1">
               {resident.species.map((species, idx) => (
                 <Badge key={idx} variant="secondary">
@@ -60,7 +60,7 @@ export function ResidentCard({ resident }: ResidentCardProps) {
 
         {resident.vehicles.length > 0 && (
           <div>
-            <p className="mb-1 text-muted-foreground">Veículo(s):</p>
+            <p className="mb-1 text-muted-foreground">Vehicle(s):</p>
             <div className="space-y-1">
               {resident.vehicles.map((vehicle, idx) => (
                 <div key={idx} className="rounded bg-muted p-2">

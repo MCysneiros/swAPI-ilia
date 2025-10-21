@@ -21,15 +21,14 @@ export function PlanetError() {
           </svg>
         </div>
         <h2 className="mb-2 text-2xl font-bold text-destructive">
-          Erro ao carregar planeta
+          Error loading planet
         </h2>
         <p className="mb-6 text-muted-foreground">
-          Não foi possível carregar os detalhes do planeta. Por favor, tente
-          novamente.
+          Could not load planet details. Please try again.
         </p>
         <Link href="/planets">
           <Button variant="outline" className="w-full">
-            Voltar para lista
+            Back to list
           </Button>
         </Link>
       </div>

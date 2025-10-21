@@ -12,8 +12,8 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({
-  title = 'Nenhum resultado encontrado',
-  message = 'Não há dados para exibir no momento.',
+  title = 'No results found',
+  message = 'There is no data to display at this time.',
   actionLabel,
   actionHref,
   onAction,

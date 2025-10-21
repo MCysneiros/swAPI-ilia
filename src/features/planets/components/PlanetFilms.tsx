@@ -16,11 +16,11 @@ export function PlanetFilms({ films }: PlanetFilmsProps) {
     return (
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle>Filmes</CardTitle>
+          <CardTitle>Films</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            Este planeta não aparece em nenhum filme.
+            This planet does not appear in any films.
           </p>
         </CardContent>
       </Card>
@@ -31,7 +31,7 @@ export function PlanetFilms({ films }: PlanetFilmsProps) {
     return (
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle>Filmes</CardTitle>
+          <CardTitle>Films</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -44,7 +44,7 @@ export function PlanetFilms({ films }: PlanetFilmsProps) {
     );
   }
 
-  // Ordenar por episódio
+  // Sort by episode
   const sortedFilms = [...filmsData].sort(
     (a, b) => a.episode_id - b.episode_id
   );
@@ -52,7 +52,7 @@ export function PlanetFilms({ films }: PlanetFilmsProps) {
   return (
     <Card className="lg:col-span-2">
       <CardHeader>
-        <CardTitle>Filmes ({filmsData.length})</CardTitle>
+        <CardTitle>Films ({filmsData.length})</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

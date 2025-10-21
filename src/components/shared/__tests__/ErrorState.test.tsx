@@ -7,9 +7,9 @@ describe('ErrorState', () => {
   it('should render with default props', () => {
     render(<ErrorState />);
 
-    expect(screen.getByText('Erro ao carregar dados')).toBeInTheDocument();
+    expect(screen.getByText('Error loading data')).toBeInTheDocument();
     expect(
-      screen.getByText('Ocorreu um erro ao carregar os dados. Tente novamente.')
+      screen.getByText('An error occurred while loading the data. Please try again.')
     ).toBeInTheDocument();
   });
 
@@ -30,7 +30,7 @@ describe('ErrorState', () => {
     render(<ErrorState onRetry={onRetry} />);
 
     const retryButton = screen.getByRole('button', {
-      name: /tentar novamente/i,
+      name: /try again/i,
     });
     expect(retryButton).toBeInTheDocument();
   });
@@ -39,7 +39,7 @@ describe('ErrorState', () => {
     render(<ErrorState />);
 
     const retryButton = screen.queryByRole('button', {
-      name: /tentar novamente/i,
+      name: /try again/i,
     });
     expect(retryButton).not.toBeInTheDocument();
   });
@@ -51,7 +51,7 @@ describe('ErrorState', () => {
     render(<ErrorState onRetry={onRetry} />);
 
     const retryButton = screen.getByRole('button', {
-      name: /tentar novamente/i,
+      name: /try again/i,
     });
     await user.click(retryButton);
 

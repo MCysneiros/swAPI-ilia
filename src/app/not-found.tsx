@@ -36,26 +36,26 @@ export default function NotFound() {
         </motion.div>
 
         <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-          Perdido no Espaço
+          Lost in Space
         </h2>
 
         <p className="mb-8 max-w-md text-base text-muted-foreground sm:text-lg">
-          A página que você está procurando desapareceu no hiperespaço. Pode ter
-          sido destruída pela Estrela da Morte, ou talvez nunca tenha existido
-          nesta galáxia.
+          The page you are looking for has disappeared into hyperspace. It may
+          have been destroyed by the Death Star, or perhaps never existed in
+          this galaxy.
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Button size="lg" asChild>
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
-              Voltar para Início
+              Back to Home
             </Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
             <Link href="/planets">
               <Search className="mr-2 h-4 w-4" />
-              Explorar Planetas
+              Explore Planets
             </Link>
           </Button>
         </div>
@@ -67,7 +67,7 @@ export default function NotFound() {
             className="text-sm text-muted-foreground"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Voltar para página anterior
+            Back to previous page
           </Button>
         </div>
 
@@ -78,7 +78,7 @@ export default function NotFound() {
           className="mt-12 border-l-4 border-primary/20 pl-4 text-left"
         >
           <p className="text-sm italic text-muted-foreground">
-            &ldquo;Estes não são os droides que você está procurando.&rdquo;
+            &ldquo;These are not the droids you are looking for.&rdquo;
           </p>
           <p className="mt-1 text-xs text-muted-foreground">- Obi-Wan Kenobi</p>
         </motion.div>

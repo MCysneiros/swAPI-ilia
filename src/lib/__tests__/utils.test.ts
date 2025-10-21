@@ -13,48 +13,48 @@ describe('utils', () => {
   describe('cn', () => {
     it('deve mesclar classes do Tailwind', () => {
       const result = cn('px-2 py-1', 'px-4');
-      // twMerge deve resolver conflitos e manter apenas px-4
+      // twMerge should resolve conflicts and keep only px-4
       expect(result).toBe('py-1 px-4');
     });
 
-    it('deve lidar com classes condicionais', () => {
+    it('should handle conditional classes', () => {
       const result = cn('base-class', false && 'hidden', 'another-class');
       expect(result).toBe('base-class another-class');
     });
 
-    it('deve aceitar arrays', () => {
+    it('should accept arrays', () => {
       const result = cn(['class1', 'class2'], 'class3');
       expect(result).toContain('class1');
       expect(result).toContain('class2');
       expect(result).toContain('class3');
     });
 
-    it('deve retornar string vazia para entrada vazia', () => {
+    it('should return empty string for empty input', () => {
       const result = cn();
       expect(result).toBe('');
     });
   });
 
   describe('formatDate', () => {
-    it('deve formatar data para pt-BR por padrão', () => {
+    it('should format date to pt-BR by default', () => {
       const date = new Date('2024-01-15T10:30:00Z');
       const result = formatDate(date);
       expect(result).toMatch(/\d{2}\/\d{2}\/\d{4}/);
     });
 
-    it('deve aceitar string ISO como entrada', () => {
+    it('should accept ISO string as input', () => {
       const result = formatDate('2024-01-15T10:30:00Z');
       expect(result).toMatch(/\d{2}\/\d{2}\/\d{4}/);
     });
 
-    it('deve aceitar locale customizado', () => {
+    it('should accept custom locale', () => {
       const date = new Date('2024-01-15T10:30:00Z');
       const result = formatDate(date, 'en-US');
-      // Formato americano MM/DD/YYYY
+      // American format MM/DD/YYYY
       expect(result).toMatch(/\d{2}\/\d{2}\/\d{4}/);
     });
 
-    it('deve aceitar opções de formato customizadas', () => {
+    it('should accept custom format options', () => {
       const date = new Date('2024-01-15T10:30:00Z');
       const result = formatDate(date, 'pt-BR', {
         year: 'numeric',
@@ -74,7 +74,7 @@ describe('utils', () => {
       vi.useRealTimers();
     });
 
-    it('deve formatar tempo relativo em segundos', () => {
+    it('should format relative time in seconds', () => {
       const now = new Date('2024-01-15T10:30:00Z');
       vi.setSystemTime(now);
 
@@ -83,7 +83,7 @@ describe('utils', () => {
       expect(result).toContain('30');
     });
 
-    it('deve formatar tempo relativo em minutos', () => {
+    it('should format relative time in minutes', () => {
       const now = new Date('2024-01-15T10:30:00Z');
       vi.setSystemTime(now);
 
@@ -92,7 +92,7 @@ describe('utils', () => {
       expect(result).toContain('5');
     });
 
-    it('deve formatar tempo relativo em horas', () => {
+    it('should format relative time in hours', () => {
       const now = new Date('2024-01-15T10:30:00Z');
       vi.setSystemTime(now);
 
@@ -101,7 +101,7 @@ describe('utils', () => {
       expect(result).toContain('2');
     });
 
-    it('deve formatar tempo relativo em dias', () => {
+    it('should format relative time in days', () => {
       const now = new Date('2024-01-15T10:30:00Z');
       vi.setSystemTime(now);
 
@@ -110,7 +110,7 @@ describe('utils', () => {
       expect(result).toContain('3');
     });
 
-    it('deve aceitar string ISO como entrada', () => {
+    it('should accept ISO string as input', () => {
       const now = new Date('2024-01-15T10:30:00Z');
       vi.setSystemTime(now);
 
@@ -120,31 +120,31 @@ describe('utils', () => {
   });
 
   describe('extractIdFromUrl', () => {
-    it('deve extrair ID de URL do SWAPI', () => {
+    it('should extract ID from SWAPI URL', () => {
       const url = 'https://swapi.dev/api/planets/1/';
       const result = extractIdFromUrl(url);
       expect(result).toBe('1');
     });
 
-    it('deve extrair IDs de múltiplos dígitos', () => {
+    it('should extract multi-digit IDs', () => {
       const url = 'https://swapi.dev/api/planets/42/';
       const result = extractIdFromUrl(url);
       expect(result).toBe('42');
     });
 
-    it('deve extrair ID de diferentes recursos', () => {
+    it('should extract ID from different resources', () => {
       const url = 'https://swapi.dev/api/people/123/';
       const result = extractIdFromUrl(url);
       expect(result).toBe('123');
     });
 
-    it('deve retornar string vazia para URL inválida', () => {
+    it('should return empty string for invalid URL', () => {
       const url = 'https://swapi.dev/api/planets/';
       const result = extractIdFromUrl(url);
       expect(result).toBe('');
     });
 
-    it('deve retornar string vazia para URL sem ID', () => {
+    it('should return empty string for URL without ID', () => {
       const url = 'https://swapi.dev/api/';
       const result = extractIdFromUrl(url);
       expect(result).toBe('');
@@ -152,7 +152,7 @@ describe('utils', () => {
   });
 
   describe('buildUrl', () => {
-    it('deve construir URL com parâmetros', () => {
+    it('should build URL with parameters', () => {
       const result = buildUrl('https://api.example.com/data', {
         page: 1,
         search: 'test',
@@ -161,7 +161,7 @@ describe('utils', () => {
       expect(result).toContain('search=test');
     });
 
-    it('deve ignorar valores undefined', () => {
+    it('should ignore undefined values', () => {
       const result = buildUrl('https://api.example.com/data', {
         page: 1,
         search: undefined,
@@ -170,7 +170,7 @@ describe('utils', () => {
       expect(result).not.toContain('search');
     });
 
-    it('deve ignorar valores null', () => {
+    it('should ignore null values', () => {
       const result = buildUrl('https://api.example.com/data', {
         page: 1,
         filter: null,
@@ -179,7 +179,7 @@ describe('utils', () => {
       expect(result).not.toContain('filter');
     });
 
-    it('deve ignorar strings vazias', () => {
+    it('should ignore empty strings', () => {
       const result = buildUrl('https://api.example.com/data', {
         page: 1,
         search: '',
@@ -188,7 +188,7 @@ describe('utils', () => {
       expect(result).not.toContain('search');
     });
 
-    it('deve converter valores para string', () => {
+    it('should convert values to string', () => {
       const result = buildUrl('https://api.example.com/data', {
         page: 2,
         active: true,
@@ -197,7 +197,7 @@ describe('utils', () => {
       expect(result).toContain('active=true');
     });
 
-    it('deve lidar com URL base sem barra final', () => {
+    it('should handle base URL without trailing slash', () => {
       const result = buildUrl('https://api.example.com/data', { page: 1 });
       expect(result).toContain('https://api.example.com/data?page=1');
     });
@@ -301,7 +301,7 @@ describe('utils', () => {
       expect(fn).toHaveBeenCalledWith('arg1', 'arg2');
     });
 
-    it('deve ignorar chamadas durante período de throttle', () => {
+    it('should ignore calls during throttle period', () => {
       const fn = vi.fn();
       const throttledFn = throttle(fn, 1000);
 
@@ -309,7 +309,7 @@ describe('utils', () => {
       throttledFn('second');
       throttledFn('third');
 
-      // Apenas a primeira chamada deve ser executada
+      // Only the first call should be executed
       expect(fn).toHaveBeenCalledTimes(1);
       expect(fn).toHaveBeenCalledWith('first');
     });

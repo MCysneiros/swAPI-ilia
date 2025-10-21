@@ -50,7 +50,7 @@ describe('useFilms', () => {
     vi.clearAllMocks();
   });
 
-  it('deve retornar filmes com sucesso quando há URLs', async () => {
+  it('should return films successfully when there are URLs', async () => {
     const filmUrls = [
       'https://swapi.dev/api/films/1/',
       'https://swapi.dev/api/films/2/',
@@ -76,18 +76,18 @@ describe('useFilms', () => {
     expect(planetsApi.getFilmByUrl).toHaveBeenCalledWith(filmUrls[1]);
   });
 
-  it('deve retornar array vazio quando não há URLs', async () => {
+  it('should return empty array when there are no URLs', async () => {
     const { result } = renderHook(() => useFilms([]), {
       wrapper: TestWrapper,
     });
 
-    // Query não deve ser executada quando disabled
+    // Query should not be executed when disabled
     expect(result.current.isFetching).toBe(false);
     expect(result.current.data).toBeUndefined();
     expect(planetsApi.getFilmByUrl).not.toHaveBeenCalled();
   });
 
-  it('deve estar disabled quando não há URLs', async () => {
+  it('should be disabled when there are no URLs', async () => {
     const { result } = renderHook(() => useFilms([]), {
       wrapper: TestWrapper,
     });
@@ -97,7 +97,7 @@ describe('useFilms', () => {
     expect(planetsApi.getFilmByUrl).not.toHaveBeenCalled();
   });
 
-  it('deve buscar apenas um filme quando há uma URL', async () => {});
+  it('should fetch only one film when there is one URL', async () => {});
 
   it.skip('deve lidar com erros ao buscar filmes', async () => {
     const filmUrls = ['https://swapi.dev/api/films/999/'];
