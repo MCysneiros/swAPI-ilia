@@ -9,7 +9,9 @@ describe('ErrorState', () => {
 
     expect(screen.getByText('Error loading data')).toBeInTheDocument();
     expect(
-      screen.getByText('An error occurred while loading the data. Please try again.')
+      screen.getByText(
+        'An error occurred while loading the data. Please try again.'
+      )
     ).toBeInTheDocument();
   });
 

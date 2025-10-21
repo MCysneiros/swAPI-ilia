@@ -5,6 +5,7 @@ Uma experiência moderna para explorar os recursos públicos da Star Wars API (S
 Live demo (Vercel): https://sw-api-ilia.vercel.app/
 
 ## ✨ Destaques
+
 - Exploração completa dos planetas da SWAPI com home hero e cartões de destaque atualizados em tempo real.
 - Lista com busca, paginação, skeletons e sincronização de parâmetros na URL para preservar filtros e navegação do usuário.
 - Página de detalhes que agrega filmes e residentes com carregamento progressivo e estados de erro dedicados.
@@ -15,11 +16,13 @@ Live demo (Vercel): https://sw-api-ilia.vercel.app/
 ## 🚀 Stack Tecnológica
 
 ### Framework & Linguagem
+
 - **Next.js 15** (App Router + Server/Client Components)
 - **React 19 RC** com hidratação progressiva
 - **TypeScript** com modo `strict`
 
 ### UI e Experiência
+
 - **Tailwind CSS** com tokens utilitários e animações via `tailwindcss-animate`
 - **Radix UI / shadcn** para componentes acessíveis
 - **Framer Motion** para animações (`FadeIn`, `StaggerChildren`)
@@ -27,12 +30,14 @@ Live demo (Vercel): https://sw-api-ilia.vercel.app/
 - **next-themes** + **Sonner** para tema persistente e toasts
 
 ### Dados & Estado
+
 - **TanStack Query 5** para cache e sincronização com a SWAPI
 - **Axios** (instância tipada em `src/lib/api/client.ts`) e `fetch` para rotas server-side
 - **Zod** para validação de variáveis de ambiente (`src/lib/env.ts`)
 - Hooks utilitários (`useQueryParams`, `useUrlSync`, `useDebounce`, `usePagination`)
 
 ### Qualidade e Produtividade
+
 - **ESLint** + **Prettier** + **lint-staged**
 - **Husky** com hook de `pre-commit`
 - **Vitest** + **@testing-library/react** + **MSW**
@@ -41,34 +46,49 @@ Live demo (Vercel): https://sw-api-ilia.vercel.app/
 ## 📁 Arquitetura
 
 ### Estrutura de diretórios
+
 ```text
 src/
 ├── app/
-│   ├── layout.tsx
-│   ├── page.tsx
-│   ├── not-found.tsx
-│   └── planets/
-│       ├── page.tsx
-│       └── [id]/page.tsx
+│   ├── [id]/
+│   │   └── page.tsx       # detalhes de planeta
+│   ├── globals.css        # estilos globais
+│   ├── layout.tsx         # layout raiz com Providers
+│   ├── not-found.tsx      # fallback 404
+│   └── page.tsx           # listagem principal de planetas
 ├── components/
-│   ├── animations/       # FadeIn, StaggerChildren, etc.
-│   ├── layout/           # Header, Footer, PageContainer
-│   ├── loading/          # Skeletons reutilizáveis
-│   ├── shared/           # EmptyState, ErrorState, Pagination
-│   └── ui/               # Button, Card, Input, Badge, Spinner
-├── constants/            # API config, query keys, paginação
+│   ├── animations/        # wrappers Framer Motion
+│   ├── layout/            # Header, Footer, MainLayout
+│   ├── loading/           # skeletons dedicados
+│   ├── shared/            # EmptyState, Pagination, etc.
+│   ├── ui/                # primitives shadcn/ui
+│   ├── theme-provider.tsx # provider de tema
+│   └── theme-toggle.tsx   # toggle light/dark
+├── constants/             # configs de API e chaves de cache
 ├── features/
 │   └── planets/
-│       ├── api/          # planetApi, server helpers
-│       ├── components/   # UI específica (PlanetBasicInfo, PlanetFilms, ...)
-│       └── hooks/        # usePlanetsQuery, usePlanetDetails, ...
-├── hooks/                # Hooks genéricos + testes dedicados
-├── lib/                  # Providers, env, utils e cliente HTTP
-├── test/                 # Setup de testes, mocks MSW e utilitários
-└── types/                # Tipos compartilhados (API, Planet, Film, Resident)
+│       ├── api/           # cliente SWAPI e helpers
+│       ├── components/    # UI específica de planetas
+│       └── hooks/         # React Query + prefetch
+├── hooks/
+│   ├── __tests__/         # testes unitários dos hooks genéricos
+│   ├── index.ts           # barrel exports
+│   └── use*.ts            # sincronização de URL, debounce, etc.
+├── lib/
+│   ├── __tests__/         # specs dos utils
+│   ├── api/               # instância Axios tipada
+│   ├── env.ts             # validação das variáveis de ambiente
+│   ├── providers.tsx      # QueryClient + ThemeProvider globais
+│   └── utils.ts           # helpers compartilhados
+├── test/
+│   ├── mocks/             # handlers MSW, fixtures e server
+│   ├── setup.ts           # bootstrap do Vitest
+│   └── utils.tsx          # utilitários de render
+└── types/                 # contratos compartilhados (API, domínio)
 ```
 
 ### Módulos em foco
+
 - `src/app`: rotas App Router, tema global e composição com `<Providers />`.
 - `src/features/planets`: domínio principal com API client, componentes e hooks específicos.
 - `src/constants/queryKeys.ts`: chaves centralizadas para React Query, evitando colisões.
@@ -76,6 +96,7 @@ src/
 - `src/test/mocks`: MSW simula SWAPI para testes e desenvolvimento offline opcional.
 
 ## 🌍 Funcionalidades
+
 - **Home (`/`)**: hero animado, chamada à ação e cards destacados com indicadores de sincronização via React Query.
 - **Planetas (`/planets`)**: busca com debounce, paginação preservada na URL, skeletons, estados de erro/vazio e indicador de live re-fetch.
 - **Detalhes (`/planets/[id]`)**: informações básicas, características, filmes e residentes com carregamento paralelo e placeholders dedicados.
@@ -84,6 +105,7 @@ src/
 ## 🧠 Dados e Cache
 
 ### Configuração global (`src/constants/api.ts`)
+
 ```ts
 export const CACHE_CONFIG = {
   staleTime: 60 * 1000,
@@ -96,12 +118,14 @@ export const CACHE_CONFIG = {
 `src/lib/providers.tsx` cria o `QueryClient` com essas defaults e expõe DevTools + toasts.
 
 ### Consultas principais
+
 - **Lista de planetas** (`src/features/planets/hooks/usePlanetsQuery.ts`): sorting client-side, placeholderData, detecção de estados (`showSkeleton`, `showEmptyState`, `isSyncing`) e cálculo de paginação.
 - **Detalhes do planeta** (`src/features/planets/hooks/usePlanetDetails.ts`): cache de 5 min, GC de 10 min, `retry` duplo e `refetchOnWindowFocus` desabilitado.
 - **Filmes e residentes** (`useFilms`, `useResidents`): carregamento paralelo com `Promise.all`, caches longos (30–60 min) e chave composta (`queryKeys.films`, `queryKeys.residents`).
 - **Prefetch** (`usePrefetchPlanet`): antecipação opcional de detalhes para navegação instantânea.
 
 ### Query keys tipadas (`src/constants/queryKeys.ts`)
+
 ```ts
 export const queryKeys = {
   planets: {
@@ -122,11 +146,13 @@ export const queryKeys = {
 ## 🧪 Testes
 
 ### Unitários e de hooks (Vitest)
+
 - `pnpm test` executa `vitest` com `jsdom`, `@testing-library/react` e setup via `src/test/setup.ts`.
 - Hooks de URL, debounce e prefetch possuem cobertura dedicada em `src/hooks/__tests__`.
 - MSW inicializa em todos os testes para mockar SWAPI (`src/test/mocks/server.ts`).
 
 ### End-to-end (Playwright)
+
 - Suites em `e2e/`: `home`, `planets-list`, `planets-films`, `planets-integration`, `planets-complete` cobrem navegação, filtros, estados de erro e acessibilidade básica.
 - Comandos:
   ```bash
@@ -139,10 +165,12 @@ export const queryKeys = {
 ## 🛠️ Setup e Execução
 
 ### Pré-requisitos
+
 - Node.js 18+
 - pnpm (recomendado) ou npm
 
 ### Passo a passo
+
 ```bash
 pnpm install
 cp .env.example .env
@@ -151,6 +179,7 @@ pnpm dev
 ```
 
 ### Scripts disponíveis
+
 ```bash
 pnpm dev                # Ambiente de desenvolvimento
 pnpm build              # Build de produção
@@ -181,11 +210,13 @@ Valores sugeridos em `.env.example`:
 Todas as variáveis são validadas com Zod em `src/lib/env.ts`; build e runtime abortam com erros descritivos se algo faltar.
 
 ## 🧩 Mock API e desenvolvimento offline
+
 - MSW serve respostas determinísticas para planetas, filmes, residentes, espécies e veículos (`src/test/mocks/handlers.ts`).
 - `src/test/mocks/mock-data.ts` concentra fixtures adicionais reutilizadas em testes.
 - Basta ligar a flag `NEXT_PUBLIC_ENABLE_MOCK_API=true` e inicializar o worker (ou consumir os mocks na camada de testes) para explorar o app sem depender da SWAPI.
 
 ## 🔄 Extendendo para novos recursos
+
 1. **Modelagem**: adicione tipos em `src/types` e schemas/normalização conforme necessário.
 2. **Camada de API**: crie endpoints em `src/features/<domínio>/api` reutilizando a instância Axios ou `fetch` server-side.
 3. **Hooks**: modele queries/mutations em `src/features/<domínio>/hooks`, registre chaves em `src/constants/queryKeys.ts`.
@@ -194,6 +225,7 @@ Todas as variáveis são validadas com Zod em `src/lib/env.ts`; build e runtime 
 6. **Testes**: acrescente handlers MSW, specs em `src/hooks/__tests__` e cenários Playwright correspondentes.
 
 ## 📚 Referências e Recursos
+
 - [Next.js Docs](https://nextjs.org/docs)
 - [TanStack Query Docs](https://tanstack.com/query/latest)
 - [SWAPI Documentation](https://swapi.dev/documentation)
@@ -203,12 +235,14 @@ Todas as variáveis são validadas com Zod em `src/lib/env.ts`; build e runtime 
 - [Playwright](https://playwright.dev)
 
 ## 📝 Estado do Projeto
+
 - ✅ Pronto para demonstrações técnicas e entrevistas.
 - ✅ Serve como template para apps data-driven com Next.js 15.
 - ✅ Cobertura de testes oferece confiança para evoluções.
 - ⚠️ Integração write (create/update/delete) permanece mockada — SWAPI é read-only.
 
 ### Próximos passos sugeridos
+
 1. Habilitar toggle de mocks no runtime (service worker) para desenvolvimento offline sem configuração manual.
 2. Adicionar autenticação (ex.: NextAuth.js) e recursos protegidos.
 3. Configurar pipeline CI/CD (Lint + Test + Playwright) com deploy automático.
