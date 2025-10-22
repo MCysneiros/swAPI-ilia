@@ -17,29 +17,25 @@ test.describe('Planet Detail Page', () => {
   });
 
   test('should display basic planet information', async ({ page }) => {
-    await expect(
-      page.getByText(/Rotation Period|Período de Rotação/i).first()
-    ).toBeVisible();
-    await expect(
-      page.getByText(/Orbital Period|Período Orbital/i).first()
-    ).toBeVisible();
+    await expect(page.getByText(/Rotation Period/i).first()).toBeVisible();
+    await expect(page.getByText(/Orbital Period/i).first()).toBeVisible();
   });
 
   test('should display climate and terrain', async ({ page }) => {
-    await expect(page.getByText(/Climate|Clima/i)).toBeVisible();
-    await expect(page.getByText(/Terrain|Terreno/i)).toBeVisible();
+    await expect(page.getByText(/Climate/i)).toBeVisible();
+    await expect(page.getByText(/Terrain/i)).toBeVisible();
   });
 
   test('should display population', async ({ page }) => {
-    await expect(page.getByText(/Population|População/i)).toBeVisible();
+    await expect(page.getByText(/Population/i)).toBeVisible();
   });
 
   test('should display diameter', async ({ page }) => {
-    await expect(page.getByText(/Diameter|Diâmetro/i)).toBeVisible();
+    await expect(page.getByText(/Diameter/i)).toBeVisible();
   });
 
   test('should display gravity', async ({ page }) => {
-    await expect(page.getByText(/Gravity|Gravidade/i)).toBeVisible();
+    await expect(page.getByText(/Gravity/i)).toBeVisible();
   });
 
   test('should have back button', async ({ page }) => {
@@ -55,7 +51,7 @@ test.describe('Planet Detail Page', () => {
 
   test('should display residents section when available', async ({ page }) => {
     const residentsHeading = page.getByRole('heading', {
-      name: /Residents|Residentes/i,
+      name: /Residents/i,
     });
 
     const count = await residentsHeading.count();
@@ -66,7 +62,7 @@ test.describe('Planet Detail Page', () => {
 
   test('should display films section when available', async ({ page }) => {
     const filmsHeading = page.getByRole('heading', {
-      name: /Films|Filmes/i,
+      name: /Films/i,
     });
 
     const count = await filmsHeading.count();

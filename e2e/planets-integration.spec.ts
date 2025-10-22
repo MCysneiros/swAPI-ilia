@@ -121,7 +121,7 @@ test.describe('Planets - Error Handling', () => {
     const currentUrl = page.url();
 
     const hasError = await page
-      .getByText(/erro|error|not found/i)
+      .getByText(/error|not found/i)
       .isVisible()
       .catch(() => false);
 
@@ -284,9 +284,7 @@ test.describe('Planets - Browser Compatibility', () => {
       .catch(() => false);
 
     if (hasCookieBanner) {
-      const acceptButton = page.getByRole('button', {
-        name: /aceitar|accept/i,
-      });
+      const acceptButton = page.getByRole('button', { name: /accept/i });
       await expect(acceptButton).toBeVisible();
     }
   });

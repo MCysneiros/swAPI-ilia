@@ -223,7 +223,7 @@ describe('utils', () => {
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
-    it('should cancel previous calls', () => {
+    it('should cancel previous executions', () => {
       const fn = vi.fn();
       const debouncedFn = debounce(fn, 500);
 
@@ -235,7 +235,7 @@ describe('utils', () => {
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
-    it('should pass arguments through correctly', () => {
+    it('should pass arguments correctly', () => {
       const fn = vi.fn();
       const debouncedFn = debounce(fn, 500);
 
@@ -293,7 +293,7 @@ describe('utils', () => {
       expect(fn).toHaveBeenCalledTimes(2);
     });
 
-    it('should pass arguments through correctly', () => {
+    it('should pass arguments correctly', () => {
       const fn = vi.fn();
       const throttledFn = throttle(fn, 1000);
 
