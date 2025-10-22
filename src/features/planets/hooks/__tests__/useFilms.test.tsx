@@ -81,7 +81,6 @@ describe('useFilms', () => {
       wrapper: TestWrapper,
     });
 
-    // Query should not be executed when disabled
     expect(result.current.isFetching).toBe(false);
     expect(result.current.data).toBeUndefined();
     expect(planetsApi.getFilmByUrl).not.toHaveBeenCalled();
@@ -99,7 +98,7 @@ describe('useFilms', () => {
 
   it('should fetch only one film when there is one URL', async () => {});
 
-  it.skip('deve lidar com erros ao buscar filmes', async () => {
+  it.skip('should handle errors when fetching films', async () => {
     const filmUrls = ['https://swapi.dev/api/films/999/'];
     const error = new Error('Film not found');
 
@@ -117,7 +116,7 @@ describe('useFilms', () => {
     expect(result.current.data).toBeUndefined();
   });
 
-  it('deve buscar apenas um filme quando há uma URL', async () => {
+  it('should fetch a single film when only one URL is provided', async () => {
     const filmUrls = ['https://swapi.dev/api/films/1/'];
 
     vi.mocked(planetsApi.getFilmByUrl).mockResolvedValue(mockFilm1);
@@ -134,7 +133,7 @@ describe('useFilms', () => {
     expect(planetsApi.getFilmByUrl).toHaveBeenCalledTimes(1);
   });
 
-  it('deve buscar filmes em paralelo usando Promise.all', async () => {
+  it('should fetch films in parallel using Promise.all', async () => {
     const filmUrls = [
       'https://swapi.dev/api/films/1/',
       'https://swapi.dev/api/films/2/',
@@ -160,7 +159,7 @@ describe('useFilms', () => {
     expect(planetsApi.getFilmByUrl).toHaveBeenCalledTimes(3);
   });
 
-  it('deve ter configurações corretas de cache (30min stale, 1h gc)', async () => {
+  it('should configure cache correctly (30min stale, 1h gc)', async () => {
     const filmUrls = ['https://swapi.dev/api/films/1/'];
     vi.mocked(planetsApi.getFilmByUrl).mockResolvedValue(mockFilm1);
 
@@ -172,7 +171,6 @@ describe('useFilms', () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    // Verify that it doesn't refetch automatically
     expect(result.current.isRefetching).toBe(false);
   });
 
@@ -200,7 +198,7 @@ describe('useFilms', () => {
       expect(result2.current.isSuccess).toBe(true);
     });
 
-    // Queries diferentes devem ter resultados diferentes
+    // Different queries should return different results
     expect(result1.current.data?.[0]).not.toEqual(result2.current.data?.[0]);
   });
 });

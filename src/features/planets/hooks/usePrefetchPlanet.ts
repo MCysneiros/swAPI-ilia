@@ -11,10 +11,7 @@ export function usePrefetchPlanet() {
         queryFn: () => getPlanet(id),
         staleTime: 5 * 60 * 1000,
       })
-      .catch(() => {
-        // Silently ignore prefetch errors - prefetching is an optimization
-        // and should not break the user experience
-      });
+      .catch(() => {});
   };
 
   return { prefetchPlanet };

@@ -7,7 +7,6 @@ import dynamic from 'next/dynamic';
 import { CACHE_CONFIG } from '@/constants';
 import { ThemeProvider } from '@/components/theme-provider';
 
-// Lazy load React Query Devtools only in development
 const ReactQueryDevtools =
   process.env.NODE_ENV === 'development'
     ? dynamic(

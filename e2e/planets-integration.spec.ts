@@ -30,12 +30,10 @@ test.describe('Planets - Integration Flow', () => {
     await page.waitForURL(/\/\d+/, { timeout: 10000 });
 
     await page.goBack();
-    // The URL should maintain the search query parameter
     await page.waitForURL(/\/\?search=/, { timeout: 10000 });
 
     const currentSearch = await searchInput.inputValue();
 
-    // Verify the search query is maintained
     expect(currentSearch).toBe('Tatooine');
   });
 
@@ -118,18 +116,15 @@ test.describe('Planets - Error Handling', () => {
   test('should show error for invalid planet ID', async ({ page }) => {
     await page.goto('/invalid-id');
 
-    // Wait for navigation or error state to appear
     await page.waitForTimeout(2000);
 
     const currentUrl = page.url();
 
-    // Check for error message or "not found" message
     const hasError = await page
       .getByText(/erro|error|not found/i)
       .isVisible()
       .catch(() => false);
 
-    // Check if redirected away from invalid-id or if error/not found message is shown
     expect(hasError || !currentUrl.includes('invalid-id')).toBeTruthy();
   });
 });
@@ -140,13 +135,11 @@ test.describe('Planets - Loading States', () => {
   }) => {
     await page.goto('/');
 
-    // Should briefly show skeleton (or data loads very fast)
     const hasSkeleton = await page
       .locator('[class*="animate-pulse"]')
       .isVisible({ timeout: 1000 })
       .catch(() => false);
 
-    // Either shows skeleton or loads fast enough
     expect(typeof hasSkeleton).toBe('boolean');
   });
 
@@ -155,7 +148,6 @@ test.describe('Planets - Loading States', () => {
   }) => {
     await page.goto('/1');
 
-    // Check for any loading state
     const hasLoading = await page
       .locator('[class*="animate-pulse"]')
       .isVisible({ timeout: 1000 })
@@ -171,7 +163,6 @@ test.describe('Planets - Loading States', () => {
     const searchInput = page.getByPlaceholder(/search/i);
     await searchInput.fill('Test');
 
-    // Should show some loading indicator
     await page.waitForTimeout(300);
 
     const hasLoading = await page
@@ -216,13 +207,10 @@ test.describe('Planets - Data Integrity', () => {
     await searchInput.fill('<script>alert("xss")</script>');
     await page.waitForTimeout(500);
 
-    // Check that no script tag is rendered in the DOM
     const scriptTags = await page.locator('script:has-text("xss")').count();
     expect(scriptTags).toBe(0);
 
-    // The text should be safely rendered, not executed
     const pageContent = await page.content();
-    // If the content contains the escaped version or no xss at all, it's safe
     const hasRawScript =
       pageContent.includes('<script>alert("xss")</script>') &&
       !pageContent.includes('&lt;script&gt;');

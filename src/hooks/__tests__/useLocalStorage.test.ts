@@ -4,9 +4,7 @@ import { useLocalStorage } from '../useLocalStorage';
 
 describe('useLocalStorage', () => {
   beforeEach(() => {
-    // Clear localStorage before each test
     localStorage.clear();
-    // Clear all mocks
     vi.clearAllMocks();
   });
 

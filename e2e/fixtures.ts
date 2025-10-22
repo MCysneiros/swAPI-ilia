@@ -26,7 +26,6 @@ export const test = base.extend({
         );
       }
 
-      // Calculate pagination
       const totalCount = results.length;
       const startIndex = (pageNumber - 1) * pageSize;
       const endIndex = startIndex + pageSize;

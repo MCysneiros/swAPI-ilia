@@ -3,7 +3,6 @@ import { renderHook } from '@testing-library/react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useUrlSync } from '../useUrlSync';
 
-// Mock Next.js navigation
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
   usePathname: vi.fn(),
@@ -87,7 +86,6 @@ describe('useUrlSync', () => {
   });
 
   it('should not update URL if params have not changed', () => {
-    // Mock searchParams that already has the same values
     const existingParams = new URLSearchParams('page=2&search=naboo');
     (useSearchParams as ReturnType<typeof vi.fn>).mockReturnValue(
       existingParams
@@ -105,7 +103,6 @@ describe('useUrlSync', () => {
   });
 
   it('should clear all params when page is default and search is empty', () => {
-    // Mock searchParams that has some existing params to clear
     const existingParams = new URLSearchParams('page=1&search=test');
     (useSearchParams as ReturnType<typeof vi.fn>).mockReturnValue(
       existingParams

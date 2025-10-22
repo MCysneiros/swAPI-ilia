@@ -1,5 +1,3 @@
-// Comprehensive mock data for testing
-
 export const mockFilms = [
   {
     title: 'A New Hope',

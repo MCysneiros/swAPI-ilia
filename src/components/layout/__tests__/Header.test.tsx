@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Header } from '../Header';
 
-// Mock next/navigation
 vi.mock('next/navigation', () => ({
   usePathname: vi.fn(() => '/'),
 }));
@@ -17,7 +16,6 @@ describe('Header', () => {
   it('should render icons for each navigation item', () => {
     const { container } = render(<Header />);
 
-    // Should have SVG icons
     const icons = container.querySelectorAll('svg');
     expect(icons.length).toBeGreaterThan(0);
   });

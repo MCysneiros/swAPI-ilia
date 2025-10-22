@@ -17,7 +17,6 @@ test.describe('SWAPI Challenge - Planets Requirements', () => {
   test('Requirement: list sorted alphabetically', async ({ page }) => {
     await page.waitForSelector('text=Population:', { timeout: 10000 });
 
-    // Gets planet names
     const names = await page
       .locator('text=/^[A-Z]/ >> visible=true')
       .filter({

@@ -42,7 +42,6 @@ describe('FilmCard', () => {
   it('should format release date in US English', () => {
     render(<FilmCard film={mockFilm} />);
 
-    // Date might be formatted as 5/24/1977 or 5/25/1977 depending on timezone
     expect(screen.getByText(/5\/2[45]\/1977/i)).toBeInTheDocument();
   });
 

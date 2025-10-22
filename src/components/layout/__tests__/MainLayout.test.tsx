@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { MainLayout } from '../MainLayout';
 
-// Mock the Header and Footer components
 vi.mock('../Header', () => ({
   Header: () => <header data-testid="mock-header">Header</header>,
 }));

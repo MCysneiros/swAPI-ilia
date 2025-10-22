@@ -3,7 +3,6 @@ import { renderHook, act } from '@testing-library/react';
 import { useSearchParams } from 'next/navigation';
 import { useQueryParams } from '../useQueryParams';
 
-// Mock Next.js navigation
 vi.mock('next/navigation', () => ({
   useSearchParams: vi.fn(),
 }));
@@ -102,7 +101,6 @@ describe('useQueryParams', () => {
     expect(result.current.currentPage).toBe(1);
     expect(result.current.search).toBe('');
 
-    // Simulate URL change
     const mockSearchParams2 = createMockSearchParams({
       page: '2',
       search: 'naboo',
@@ -139,7 +137,6 @@ describe('useQueryParams', () => {
 
     rerender();
 
-    // Should be the same reference (no unnecessary re-render)
     expect(result.current.currentPage).toBe(initialPage);
     expect(result.current.search).toBe(initialSearch);
   });

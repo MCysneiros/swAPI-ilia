@@ -37,7 +37,6 @@ const mockPlanet: Planet = {
   url: 'https://swapi.dev/api/planets/1/',
 };
 
-// Mock do hook useFilms
 vi.mock('../../hooks/useFilms', () => ({
   useFilms: vi.fn((filmUrls: string[]) => ({
     data: filmUrls.map((url, idx) => ({
@@ -59,27 +58,27 @@ const wrapper = ({ children }: { children: React.ReactNode }) => {
 };
 
 describe('PlanetListCard', () => {
-  it('deve renderizar o nome do planeta', () => {
+  it('should render the planet name', () => {
     render(<PlanetListCard planet={mockPlanet} planetId="1" />, { wrapper });
 
     expect(screen.getByText('Tatooine')).toBeInTheDocument();
   });
 
-  it('deve renderizar terreno e clima', () => {
+  it('should render terrain and climate', () => {
     render(<PlanetListCard planet={mockPlanet} planetId="1" />, { wrapper });
 
     expect(screen.getByText(/desert/)).toBeInTheDocument();
     expect(screen.getByText(/arid/)).toBeInTheDocument();
   });
 
-  it('deve renderizar população', () => {
+  it('should render the population', () => {
     render(<PlanetListCard planet={mockPlanet} planetId="1" />, { wrapper });
 
     expect(screen.getByText('Population:')).toBeInTheDocument();
     expect(screen.getByText('200,000')).toBeInTheDocument();
   });
 
-  it('deve renderizar população como Unknown quando desconhecida', () => {
+  it('should render population as Unknown when it is unknown', () => {
     const planetWithUnknownPopulation = {
       ...mockPlanet,
       population: 'unknown',
@@ -93,27 +92,27 @@ describe('PlanetListCard', () => {
     expect(screen.getByText('Unknown')).toBeInTheDocument();
   });
 
-  it('deve renderizar diâmetro', () => {
+  it('should render the diameter', () => {
     render(<PlanetListCard planet={mockPlanet} planetId="1" />, { wrapper });
 
     expect(screen.getByText('Diameter:')).toBeInTheDocument();
     expect(screen.getByText('10465 km')).toBeInTheDocument();
   });
 
-  it('deve renderizar número de residentes', () => {
+  it('should render the number of residents', () => {
     render(<PlanetListCard planet={mockPlanet} planetId="1" />, { wrapper });
 
     expect(screen.getByText('Residents:')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
   });
 
-  it('deve renderizar seção de filmes', () => {
+  it('should render the films section', () => {
     render(<PlanetListCard planet={mockPlanet} planetId="1" />, { wrapper });
 
     expect(screen.getByText('Films:')).toBeInTheDocument();
   });
 
-  it('deve renderizar filmes quando carregados', async () => {
+  it('should render films when they are loaded', async () => {
     render(<PlanetListCard planet={mockPlanet} planetId="1" />, { wrapper });
 
     await waitFor(() => {
@@ -123,7 +122,7 @@ describe('PlanetListCard', () => {
     });
   });
 
-  it('deve exibir "No films" quando não há filmes', async () => {
+  it('should show "No films" when there are none', async () => {
     const planetWithoutFilms = {
       ...mockPlanet,
       films: [],
@@ -138,14 +137,14 @@ describe('PlanetListCard', () => {
     });
   });
 
-  it('deve ter link para a página de detalhes', () => {
+  it('should have a link to the details page', () => {
     render(<PlanetListCard planet={mockPlanet} planetId="1" />, { wrapper });
 
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('href', '/1');
   });
 
-  it('deve renderizar ícone de filme', () => {
+  it('should render the film icon', () => {
     const { container } = render(
       <PlanetListCard planet={mockPlanet} planetId="1" />,
       { wrapper }
@@ -155,7 +154,7 @@ describe('PlanetListCard', () => {
     expect(svg).toBeInTheDocument();
   });
 
-  it('deve aplicar classes de transição no card', () => {
+  it('should apply transition classes on the card', () => {
     const { container } = render(
       <PlanetListCard planet={mockPlanet} planetId="1" />,
       { wrapper }

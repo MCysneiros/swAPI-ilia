@@ -77,7 +77,7 @@ describe('planetsApi (Client-side)', () => {
   });
 
   describe('getById', () => {
-    it('deve buscar planeta por ID', async () => {
+    it('should fetch a planet by ID', async () => {
       vi.mocked(apiClient.get).mockResolvedValue({ data: mockPlanet });
 
       const result = await planetsApi.getById('1');
@@ -86,7 +86,7 @@ describe('planetsApi (Client-side)', () => {
       expect(result).toEqual(mockPlanet);
     });
 
-    it('deve lançar erro quando falhar', async () => {
+    it('should throw an error when the request fails', async () => {
       const error = new Error('Network error');
       vi.mocked(apiClient.get).mockRejectedValue(error);
 
@@ -95,7 +95,7 @@ describe('planetsApi (Client-side)', () => {
   });
 
   describe('getAll', () => {
-    it('deve buscar lista de planetas', async () => {
+    it('should fetch the list of planets', async () => {
       vi.mocked(apiClient.get).mockResolvedValue({ data: mockApiResponse });
 
       const result = await planetsApi.getAll();
@@ -106,7 +106,7 @@ describe('planetsApi (Client-side)', () => {
       expect(result).toEqual(mockApiResponse);
     });
 
-    it('deve incluir parâmetro de página', async () => {
+    it('should include the page parameter', async () => {
       vi.mocked(apiClient.get).mockResolvedValue({ data: mockApiResponse });
 
       await planetsApi.getAll({ page: 2 });
@@ -116,7 +116,7 @@ describe('planetsApi (Client-side)', () => {
       });
     });
 
-    it('deve incluir parâmetro de busca', async () => {
+    it('should include the search parameter', async () => {
       vi.mocked(apiClient.get).mockResolvedValue({ data: mockApiResponse });
 
       await planetsApi.getAll({ search: 'Tatooine' });
@@ -126,7 +126,7 @@ describe('planetsApi (Client-side)', () => {
       });
     });
 
-    it('deve incluir múltiplos parâmetros', async () => {
+    it('should include multiple parameters', async () => {
       vi.mocked(apiClient.get).mockResolvedValue({ data: mockApiResponse });
 
       await planetsApi.getAll({ page: 2, search: 'Hoth' });
@@ -136,7 +136,7 @@ describe('planetsApi (Client-side)', () => {
       });
     });
 
-    it('deve lançar erro quando falhar', async () => {
+    it('should throw an error when the request fails', async () => {
       const error = new Error('Network error');
       vi.mocked(apiClient.get).mockRejectedValue(error);
 
@@ -146,7 +146,7 @@ describe('planetsApi (Client-side)', () => {
 
   describe('Exported functions', () => {
     describe('getPlanet', () => {
-      it('deve chamar planetsApi.getById ou planetsServerApi.getById conforme disponível', async () => {
+      it('should call planetsApi.getById or planetsServerApi.getById when available', async () => {
         vi.mocked(apiClient.get).mockResolvedValue({ data: mockPlanet });
 
         const result = await getPlanet('1');
@@ -156,7 +156,7 @@ describe('planetsApi (Client-side)', () => {
     });
 
     describe('getPlanets', () => {
-      it('deve buscar planetas com página padrão', async () => {
+      it('should fetch planets with the default page', async () => {
         vi.mocked(apiClient.get).mockResolvedValue({ data: mockApiResponse });
 
         const result = await getPlanets();
@@ -167,12 +167,10 @@ describe('planetsApi (Client-side)', () => {
       it('should accept custom page number', async () => {
         const result = await getPlanets(2);
 
-        // MSW responds with mockApiResponse regardless of page
         expect(result).toEqual(mockApiResponse);
       });
 
       it('should accept search term', async () => {
-        // Mock MSW for search returning empty array (not found)
         const emptyResponse: ApiResponse<Planet> = {
           count: 0,
           next: null,
@@ -182,7 +180,6 @@ describe('planetsApi (Client-side)', () => {
 
         const result = await getPlanets(1, 'Hoth');
 
-        // MSW returns empty array for "Hoth"
         expect(result).toEqual(emptyResponse);
       });
     });

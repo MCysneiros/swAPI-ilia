@@ -105,7 +105,7 @@ describe('usePlanetDetails', () => {
     expect(result.current.isFetching).toBe(false);
   });
 
-  it('deve usar query key correto', async () => {
+  it('should use the correct query key', async () => {
     vi.mocked(planetsApi.getById).mockResolvedValue(mockPlanet);
 
     const { result } = renderHook(() => usePlanetDetails('42'), {

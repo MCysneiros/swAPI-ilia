@@ -107,7 +107,6 @@ test.describe('Planets List - Films Display', () => {
       timeout: 10000,
     });
 
-    // Wait for films to load
     await page.waitForTimeout(3000);
 
     const tatooineCard = page
@@ -118,18 +117,14 @@ test.describe('Planets List - Films Display', () => {
     if ((await tatooineCard.count()) > 0) {
       await tatooineCard.scrollIntoViewIfNeeded();
 
-      // Wait for Films section to be visible
       await tatooineCard
         .getByText('Films:')
         .waitFor({ state: 'visible', timeout: 5000 });
 
-      // Additional wait for film badges to render
       await page.waitForTimeout(2000);
 
-      // Get the full card text and verify multiple film names are present
       const cardText = await tatooineCard.textContent();
 
-      // Count how many film titles appear in the card
       const filmTitles = [
         'A New Hope',
         'Empire',
@@ -142,7 +137,6 @@ test.describe('Planets List - Films Display', () => {
         cardText?.includes(title)
       ).length;
 
-      // Tatooine appears in 5 films in our mock data
       expect(filmCount).toBeGreaterThanOrEqual(3);
     }
   });
@@ -230,7 +224,6 @@ test.describe('Planets List - General Requirements', () => {
     const planetNames: string[] = [];
     for (let i = 0; i < Math.min(count, 10); i++) {
       const card = planetCards.nth(i);
-      // The CardTitle is a div with font-semibold class inside the card
       const titleElement = card.locator('div.font-semibold').first();
       const title = await titleElement.textContent({ timeout: 5000 });
       if (title) planetNames.push(title.trim());
@@ -308,21 +301,17 @@ test.describe('Planets List - General Requirements', () => {
 
     const firstCard = page.locator('[data-testid="planet-card"]').first();
 
-    // Wait for card content to load
     await page.waitForTimeout(1000);
 
-    // Check that card has name (in CardTitle component)
     const cardText = await firstCard.textContent();
     expect(cardText).toBeTruthy();
-    expect(cardText).toContain('Alderaan'); // First planet alphabetically
+    expect(cardText).toContain('Alderaan');
 
-    // Check that card has terrain and climate info (combined in CardDescription)
     expect(cardText).toMatch(
       /grasslands|mountains|desert|tundra|jungle|rainforests/i
     );
     expect(cardText).toMatch(/temperate|arid|frozen|tropical|murky|hot|humid/i);
 
-    // Check that card has diameter
     await expect(firstCard.getByText('Diameter:')).toBeVisible();
   });
 
@@ -333,12 +322,11 @@ test.describe('Planets List - General Requirements', () => {
 
     const firstCard = page.locator('[data-testid="planet-card"]').first();
 
-    // Get the Card component inside the Link
     const cardElement = firstCard.locator('> div').first();
     const classes = await cardElement.getAttribute('class');
 
     expect(classes).toBeTruthy();
-    expect(classes).toContain('rounded'); // Tailwind class
+    expect(classes).toContain('rounded');
   });
 
   test('should use Next.js routes', async ({ page }) => {

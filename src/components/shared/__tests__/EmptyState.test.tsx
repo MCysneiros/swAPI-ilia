@@ -99,7 +99,6 @@ describe('EmptyState', () => {
         />
       );
 
-      // Should render link, not button
       expect(screen.getByRole('link')).toBeInTheDocument();
       expect(screen.queryByRole('button')).not.toBeInTheDocument();
     });

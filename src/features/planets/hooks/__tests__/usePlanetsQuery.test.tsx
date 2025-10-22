@@ -82,7 +82,6 @@ describe('usePlanetsQuery', () => {
       expect(result.current.planets.length).toBeGreaterThan(0)
     );
 
-    // Should be sorted alphabetically (using default MSW data)
     const planetNames = result.current.planets.map((p) => p.name);
     const sortedNames = [...planetNames].sort();
     expect(planetNames).toEqual(sortedNames);
@@ -101,7 +100,6 @@ describe('usePlanetsQuery', () => {
   });
 
   it('should show skeleton when loading initial data', () => {
-    // Mock a delayed response
     server.use(
       http.get(`${baseURL}/planets/`, () => {
         return new Promise(() => {}); // Never resolves
@@ -119,7 +117,6 @@ describe('usePlanetsQuery', () => {
   });
 
   it('should show error state when fetch fails', async () => {
-    // Mock a network error
     server.use(
       http.get(`${baseURL}/planets/`, () => {
         return HttpResponse.error();
@@ -139,7 +136,6 @@ describe('usePlanetsQuery', () => {
   });
 
   it('should show empty state when no results', async () => {
-    // Mock empty results
     server.use(
       http.get(`${baseURL}/planets/`, () => {
         return HttpResponse.json({
@@ -176,7 +172,6 @@ describe('usePlanetsQuery', () => {
   });
 
   it('should calculate hasNextPage correctly', async () => {
-    // Mock response with next page
     server.use(
       http.get(`${baseURL}/planets/`, () => {
         return HttpResponse.json({
@@ -199,7 +194,6 @@ describe('usePlanetsQuery', () => {
   });
 
   it('should calculate hasPreviousPage correctly', async () => {
-    // Mock response with previous page
     server.use(
       http.get(`${baseURL}/planets/`, () => {
         return HttpResponse.json({
@@ -235,7 +229,6 @@ describe('usePlanetsQuery', () => {
 
     await result.current.refetch();
 
-    // Data should still be present after refetch
     expect(result.current.planets).toEqual(initialPlanets);
   });
 
@@ -255,7 +248,6 @@ describe('usePlanetsQuery', () => {
   });
 
   it('should return empty array when loading', () => {
-    // Mock a delayed response
     server.use(
       http.get(`${baseURL}/planets/`, () => {
         return new Promise(() => {});

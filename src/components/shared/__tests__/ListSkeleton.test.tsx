@@ -7,7 +7,6 @@ describe('ListSkeleton', () => {
     const { container } = render(<ListSkeleton />);
     const skeletonCards = container.querySelectorAll('[data-testid], .border');
 
-    // Should render 6 cards by default
     expect(skeletonCards.length).toBeGreaterThanOrEqual(6);
   });
 
@@ -37,7 +36,6 @@ describe('ListSkeleton', () => {
   it('should render skeleton elements inside cards', () => {
     const { container } = render(<ListSkeleton />);
 
-    // Should have skeleton elements (Skeleton component uses a div with specific classes)
     const skeletons = container.querySelectorAll('.animate-pulse');
     expect(skeletons.length).toBeGreaterThan(0);
   });

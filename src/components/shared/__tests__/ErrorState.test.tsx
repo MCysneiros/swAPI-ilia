@@ -63,7 +63,6 @@ describe('ErrorState', () => {
   it('should render error icon', () => {
     const { container } = render(<ErrorState />);
 
-    // Look for SVG icon
     const icon = container.querySelector('svg');
     expect(icon).toBeInTheDocument();
   });

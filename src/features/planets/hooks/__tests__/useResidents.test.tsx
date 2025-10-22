@@ -24,7 +24,6 @@ describe('useResidents', () => {
       eye_color: 'blue',
       gender: 'male',
     });
-    // Species and vehicles come from MSW
     expect(result.current.data?.[0]?.species).toHaveLength(1);
     expect(result.current.data?.[0]?.species[0]).toMatchObject({
       name: 'Human',
@@ -82,7 +81,6 @@ describe('useResidents', () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    // Should not refetch automatically
     expect(result.current.isRefetching).toBe(false);
   });
 });

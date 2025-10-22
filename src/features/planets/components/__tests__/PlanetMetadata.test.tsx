@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { PlanetMetadata } from '../PlanetMetadata';
 
-// Mock formatDate function
 vi.mock('@/lib/utils', () => ({
   formatDate: (date: string) => new Date(date).toLocaleDateString('en-US'),
 }));

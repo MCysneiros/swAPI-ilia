@@ -2,7 +2,6 @@ import { http, HttpResponse } from 'msw';
 
 const baseURL = 'https://swapi.dev/api';
 
-// Mock data
 const mockPlanets = [
   {
     name: 'Tatooine',
@@ -57,7 +56,6 @@ const mockPlanets = [
   },
 ];
 
-// Mock data for people/residents
 const mockPeople = [
   {
     name: 'Luke Skywalker',
@@ -174,9 +172,7 @@ const mockFilms = [
   },
 ];
 
-// Add handlers for people, species, vehicles, and films
 export const additionalHandlers = [
-  // Get person by ID
   http.get(`${baseURL}/people/:id/`, ({ params }) => {
     const { id } = params;
     const person = mockPeople.find((p) => p.url.includes(`/${id}/`));
@@ -188,7 +184,6 @@ export const additionalHandlers = [
     return HttpResponse.json(person);
   }),
 
-  // Get species by ID
   http.get(`${baseURL}/species/:id/`, ({ params }) => {
     const { id } = params;
     const species = mockSpecies.find((s) => s.url.includes(`/${id}/`));
@@ -200,7 +195,6 @@ export const additionalHandlers = [
     return HttpResponse.json(species);
   }),
 
-  // Get vehicle by ID
   http.get(`${baseURL}/vehicles/:id/`, ({ params }) => {
     const { id } = params;
     const vehicle = mockVehicles.find((v) => v.url.includes(`/${id}/`));
@@ -212,7 +206,6 @@ export const additionalHandlers = [
     return HttpResponse.json(vehicle);
   }),
 
-  // Get film by ID
   http.get(`${baseURL}/films/:id/`, ({ params }) => {
     const { id } = params;
     const film = mockFilms.find((f) => f.url.includes(`/${id}/`));
@@ -226,7 +219,6 @@ export const additionalHandlers = [
 ];
 
 export const handlers = [
-  // Get all planets
   http.get(`${baseURL}/planets/`, ({ request }) => {
     const url = new URL(request.url);
     const search = url.searchParams.get('search');
@@ -248,7 +240,6 @@ export const handlers = [
     });
   }),
 
-  // Get planet by ID
   http.get(`${baseURL}/planets/:id/`, ({ params }) => {
     const { id } = params;
     const planet = mockPlanets.find((p) => p.url.includes(`/${id}/`));
@@ -260,7 +251,6 @@ export const handlers = [
     return HttpResponse.json(planet);
   }),
 
-  // Create planet (mock)
   http.post(`${baseURL}/planets/`, async ({ request }) => {
     const body = (await request.json()) as Record<string, unknown>;
     const newPlanet = {

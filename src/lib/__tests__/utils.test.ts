@@ -11,7 +11,7 @@ import {
 
 describe('utils', () => {
   describe('cn', () => {
-    it('deve mesclar classes do Tailwind', () => {
+    it('should merge Tailwind classes', () => {
       const result = cn('px-2 py-1', 'px-4');
       // twMerge should resolve conflicts and keep only px-4
       expect(result).toBe('py-1 px-4');
@@ -212,7 +212,7 @@ describe('utils', () => {
       vi.useRealTimers();
     });
 
-    it('deve atrasar execução da função', () => {
+    it('should delay function execution', () => {
       const fn = vi.fn();
       const debouncedFn = debounce(fn, 500);
 
@@ -223,7 +223,7 @@ describe('utils', () => {
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
-    it('deve cancelar execuções anteriores', () => {
+    it('should cancel previous calls', () => {
       const fn = vi.fn();
       const debouncedFn = debounce(fn, 500);
 
@@ -235,7 +235,7 @@ describe('utils', () => {
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
-    it('deve passar argumentos corretamente', () => {
+    it('should pass arguments through correctly', () => {
       const fn = vi.fn();
       const debouncedFn = debounce(fn, 500);
 
@@ -245,7 +245,7 @@ describe('utils', () => {
       expect(fn).toHaveBeenCalledWith('arg1', 'arg2');
     });
 
-    it('deve resetar timer em cada chamada', () => {
+    it('should reset the timer on each call', () => {
       const fn = vi.fn();
       const debouncedFn = debounce(fn, 500);
 
@@ -270,7 +270,7 @@ describe('utils', () => {
       vi.useRealTimers();
     });
 
-    it('deve limitar execuções da função', () => {
+    it('should limit function executions', () => {
       const fn = vi.fn();
       const throttledFn = throttle(fn, 1000);
 
@@ -281,7 +281,7 @@ describe('utils', () => {
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
-    it('deve permitir execução após período de limite', () => {
+    it('should allow execution after the throttle period', () => {
       const fn = vi.fn();
       const throttledFn = throttle(fn, 1000);
 
@@ -293,7 +293,7 @@ describe('utils', () => {
       expect(fn).toHaveBeenCalledTimes(2);
     });
 
-    it('deve passar argumentos corretamente', () => {
+    it('should pass arguments through correctly', () => {
       const fn = vi.fn();
       const throttledFn = throttle(fn, 1000);
 
