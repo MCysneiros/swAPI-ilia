@@ -118,14 +118,18 @@ test.describe('Planets - Error Handling', () => {
   test('should show error for invalid planet ID', async ({ page }) => {
     await page.goto('/invalid-id');
 
+    // Wait for navigation or error state to appear
     await page.waitForTimeout(2000);
 
     const currentUrl = page.url();
+
+    // Check for error message or "not found" message
     const hasError = await page
-      .getByText(/erro|error/i)
+      .getByText(/erro|error|not found/i)
       .isVisible()
       .catch(() => false);
 
+    // Check if redirected away from invalid-id or if error/not found message is shown
     expect(hasError || !currentUrl.includes('invalid-id')).toBeTruthy();
   });
 });

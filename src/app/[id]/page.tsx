@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { CACHE_CONFIG, queryKeys } from '@/constants';
 import {
@@ -26,10 +27,18 @@ export default async function PlanetDetailPage({
     },
   });
 
-  const planet = await queryClient.fetchQuery({
-    queryKey: queryKeys.planets.detail(id),
-    queryFn: () => planetsServerApi.getById(id),
-  });
+  const planet = await queryClient
+    .fetchQuery({
+      queryKey: queryKeys.planets.detail(id),
+      queryFn: () => planetsServerApi.getById(id),
+    })
+    .catch((error) => {
+      const status = (error as { status?: number })?.status;
+      if (status === 404) {
+        notFound();
+      }
+      throw error;
+    });
 
   const filmUrls = planet.films ?? [];
 

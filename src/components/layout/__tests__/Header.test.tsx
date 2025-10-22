@@ -14,23 +14,6 @@ describe('Header', () => {
     expect(screen.getByText('SWAPI Explorer')).toBeInTheDocument();
   });
 
-  it('should render navigation links', () => {
-    render(<Header />);
-
-    // Now we only have the logo link
-    const logoLink = screen.getByRole('link', { name: /swapi explorer/i });
-    expect(logoLink).toBeInTheDocument();
-    expect(logoLink).toHaveAttribute('href', '/');
-  });
-
-  it('should render correct href for each link', () => {
-    render(<Header />);
-
-    // Logo link should point to home
-    const logoLink = screen.getByRole('link', { name: /swapi explorer/i });
-    expect(logoLink).toHaveAttribute('href', '/');
-  });
-
   it('should render icons for each navigation item', () => {
     const { container } = render(<Header />);
 

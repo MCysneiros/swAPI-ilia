@@ -32,11 +32,19 @@ export const planetsApi = {
   },
 };
 
+type ApiError = Error & { status?: number };
+
 export const planetsServerApi = {
   getById: async (id: string): Promise<Planet> => {
     const res = await fetch(`${API_CONFIG.baseURL}/planets/${id}/`, {
       next: { revalidate: API_CONFIG.revalidate },
     });
+
+    if (res.status === 404) {
+      const error: ApiError = new Error('Planet not found');
+      error.status = 404;
+      throw error;
+    }
 
     if (!res.ok) {
       throw new Error('Failed to fetch planet');
